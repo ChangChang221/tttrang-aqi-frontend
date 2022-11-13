@@ -1,0 +1,45 @@
+.main-aqi-info{
+    width: 100%;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.left-card{
+    display: flex;
+    flex-direction: column;
+}
+.left-card .card{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 50px;
+    width: 100%;
+    align-items: center;
+}
+.right-card{
+    display: flex;
+    flex-direction: column;
+    padding-left:50px ;
+}
+.right-card .card{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 50px;
+    width: 100%;
+
+}
+.card .card-main{
+    margin-left: 20px;
+}
+.card-img{
+    padding: 10px;
+    border-radius: 5px;
+}
+@media only screen and (max-width: 800px) {
+    .right-card{
+        padding-left: 0px ;
+    }
+    .main-aqi-info{
+        display: block;
+    }    
+}

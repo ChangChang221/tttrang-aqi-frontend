@@ -1,0 +1,80 @@
+
+@import url("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css");
+@import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
+@import url(./layout/container.css);
+@import url(./layout/menu-container.css);
+@import url(./layout/area-content.css);
+@import url(../css/layout/icon.css);
+@import url(./layout/main-content.css);
+
+@import url(../css/layout/popup.css);
+@import url(../css/layout/table.css);
+
+@font-face {
+    font-family: "GoogleSans-Regular";
+    src: url(../assets/fonts/notosans-regular.2cb88a13.woff2);
+}
+
+@font-face {
+    font-family: "GoogleSans-Bold";
+    src: url(../assets/fonts/notosans-bold.3ede5aff.woff2);
+}
+
+@font-face {
+    font-family: "GoogleSans-Italic";
+    src: url(../assets/fonts/notosans-italic.1c1aaac9.woff2);
+}
+
+[notvalid] {
+    border: 1px solid #ff4747;
+}
+.menu-container-mobile{
+    height: 100vh !important;
+    z-index: 1004;
+    position: absolute !important;
+}
+.mobile-nav-overlay{
+    opacity: .68;
+    height: 100%;
+    pointer-events: auto;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    z-index: 1001;
+}
+.menu-mobile{
+    display: none;
+}
+.menu-list-mobile{
+    display: none;
+    margin-left: 15px;
+    border: 0px;
+    border-radius: 16%;
+    align-items: center;
+    background: none;
+}
+.menu-list-mobile:hover{
+    background: rgb(239,239,239);
+}
+@media screen and (max-width: 800px) {
+    .menu-container-desktop{
+        display: none;
+    }
+    .menu-list-mobile{
+        display: block;
+    }
+    .menu-mobile{
+        display: none ;
+    }
+    .company-name{
+        font-size: 14px;
+    }
+    .title-content{
+        font-size: 14px;
+    }
+}
