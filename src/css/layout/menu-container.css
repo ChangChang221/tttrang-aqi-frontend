@@ -24,7 +24,7 @@
 }
 
 .logo-container .logo {
-    display: flex;
+    display: inline-flex;
     height: 188px;
     flex-grow: 2;
     margin-left: -10px;

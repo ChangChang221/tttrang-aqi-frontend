@@ -7,8 +7,9 @@
 }
 
 .main-content .header-content {
+    gap: 2%;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     height: 36px;
     align-items: stretch;
     margin: 10px 0;
@@ -27,7 +28,7 @@
     flex-direction: column;
     flex-grow: 2;
     background-color: #fff;
-    margin-bottom: 10px;
+    margin-bottom: 23px;
 }
 
 .table-search {

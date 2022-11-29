@@ -77,4 +77,13 @@
     .title-content{
         font-size: 14px;
     }
+    .menu-desktop{
+        display: none !important;
+    }
+    .header{
+        display: flex !important;
+    }
+    .header-content .mini-logo{
+        display: none;
+    }
 }

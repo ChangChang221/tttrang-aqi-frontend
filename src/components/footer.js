@@ -3,9 +3,12 @@ import '../css/layout/container.css';
 import React, { useEffect } from "react";
 export default function Footer(){
     useEffect(() => {
-        document.getElementById("main-content").addEventListener("scroll", ()=>{
-            if (document.getElementById("main-content").scrollTop > 0){
+      window.addEventListener("scroll", ()=>{
+            if (document.body.scrollTop > 50|| document.documentElement.scrollTop > 50){
                 document.getElementById("trang-fa-angle-up").style.opacity=1
+            }
+            else{
+              document.getElementById("trang-fa-angle-up").style.opacity=0;
             }
         });
     }, []);
@@ -65,12 +68,10 @@ export default function Footer(){
         </p>
 
         <div className="footer-icons">
-
           <a href="https://www.facebook.com/trang.nt.2201"><i className="fa fa-facebook"></i></a>
-          <a href="#"><i className="fa fa-twitter"></i></a>
-          <a href="#"><i className="fa fa-linkedin"></i></a>
-          <a href="#"><i className="fa fa-github"></i></a>
-
+          <a href="https://www.linkedin.com/in/trang-nguy%E1%BB%85n-th%E1%BB%8B-878920239/"><i className="fa fa-twitter"></i></a>
+          <a href="https://www.linkedin.com/in/trang-nguy%E1%BB%85n-th%E1%BB%8B-878920239/"><i className="fa fa-linkedin"></i></a>
+          <a href="https://github.com/ChangChang221"><i className="fa fa-github"></i></a>
         </div>
 
       </div>

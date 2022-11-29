@@ -7,9 +7,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <IntlProvider translations={translations}> */}
       <App />
-    {/* </IntlProvider> */}
   </React.StrictMode>
 //   <BrowserRouter>
 //   <App />

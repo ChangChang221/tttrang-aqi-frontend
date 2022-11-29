@@ -1,5 +1,6 @@
 #map {
     height: 100%;
+    padding-bottom: 15px;
   }
 
 .main-table > div{
@@ -17,7 +18,7 @@
     right: 75px;
     position: absolute;
     top: calc(100vh - 77px);
-    left: 235px;
+    left: 60px;
     display: flex;
     flex-direction: row;
     width: auto;
@@ -140,6 +141,9 @@ td,tr,th{
     width:500px;
     height: 500px;
 }
+.leaflet-marker-icon{
+  line-height: 27px;
+}
 .leaflet-div-icon{
     background: none !important;
     text-align: center;
@@ -153,6 +157,8 @@ td,tr,th{
     text-align: center;
     color:rgba(0,0,0,.6);
     cursor: pointer;
+    justify-content: center;
+    margin: auto 0;
   }
   .leaflet-div-icon-2{
     background: #FDD64B !important;
@@ -202,7 +208,7 @@ td,tr,th{
   .setView{
     z-index: 999;
     position: absolute;
-    left: 235px;
+    left: 60px;
     bottom: 88px;
     display: flex;
     gap: 10px;
@@ -240,7 +246,7 @@ td,tr,th{
 @media screen and (max-width: 800px) {
   .setView,.note-aqi{
     /* display: none; */
-    left: 75px
+    left: 55px
   }
 }
 @media screen and (max-width: 600px) {
@@ -249,6 +255,6 @@ td,tr,th{
       /* left: 75px */
     }
     .setView{
-      bottom: 55px
+      bottom: 50px
     }
   }

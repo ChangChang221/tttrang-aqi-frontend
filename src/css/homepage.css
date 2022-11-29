@@ -1,0 +1,27 @@
+.thumbnails{
+    justify-content: center;
+}
+.infomation-me{
+    position: absolute;
+    background: #ffffff;
+    left: 400px;
+    right: 50px;
+    padding: 30px;
+    padding-top: 80px;
+    padding-right: 80px;
+    padding-bottom: 80px;
+    padding-left: 80px;
+}
+
+.infomation-me h1{
+
+}
+@media screen and (min-width: 768px){
+    .infomation-me{
+        padding: 30px;
+        padding-top: 80px;
+        padding-right: 80px;
+        padding-bottom: 80px;
+        padding-left: 80px;
+    }
+}

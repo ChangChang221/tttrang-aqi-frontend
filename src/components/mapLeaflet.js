@@ -316,7 +316,7 @@ function MapWithPlaceholder() {
           colorText='#69103d'
         }
         let numberIcon = L.divIcon({
-          html: '<div class="leaflet-div-icon-'+url+'">'+data.AQI+'</div>'
+          html: '<div class="leaflet-div-icon-'+url+'"><span style="display: inline-block;">'+data.AQI+'</span></div>'
       });
         return (
           <Marker           

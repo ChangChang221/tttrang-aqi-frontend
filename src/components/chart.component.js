@@ -175,12 +175,21 @@ class ChartAQI extends Component {
       <button type="submit" onClick={this.handleClick} className="button">Tìm kiếm</button>
       </div>
       </form>
-      <div className="chartLine">
-        <div style={{width: "100%", float:"left", margin:"25px 0px", textAlign:"center"}}>
-          <i className="fa fa-smile-o" aria-hidden="true"  style={{fontSize:"30px", paddingRight:"10px", color:"#FF3300"}}/>
-          Biểu đồ đường AQI theo thời gian</div>
-        <Line data={this.state.dataAQI} key={1}/>      
+      <div style={{marginTop: "50px", display: "flex"}}>
+        <div className="chartLine" style={{paddingRight: "50px"}}>
+          <div style={{width: "100%", float:"left", margin:"25px 0px", textAlign:"center"}}>
+            <i className="fa fa-smile-o" aria-hidden="true"  style={{fontSize:"30px", paddingRight:"10px", color:"#FF3300"}}/>
+            Biểu đồ đường AQI theo thời gian
+          </div>
+          <Line data={this.state.dataAQI} key={1}/>      
+        </div>
+      <img src={"https://haycafe.vn/wp-content/uploads/2022/01/Hinh-anh-nen-Ha-Noi.jpg"} 
+      style={{width: "50%",
+      objectFit: "cover",
+      aspectRatio: 1.5,
+      height: "auto"}}></img>
       </div>
+      
       <div>
       <div className="chartLine">
       <div style={{width: "100%", float:"left", margin:"25px 0px", textAlign:"center"}}>
