@@ -52,7 +52,7 @@ function MapWithPlaceholder() {
   });
 
   function tick() {
-  fetch("https://tttrang-aqi-backend.herokuapp.com/api") //http://localhost:5000/api/
+  fetch("https://tttrang-aqi-backend.onrender.com/api") //http://localhost:5000/api/
     .then(res => res.json())
     .then(dataRes=>{
         setData(dataRes[1]);
