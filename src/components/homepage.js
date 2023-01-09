@@ -34,7 +34,7 @@ function HomePage() {
       caption: "Quảng Ninh"
     },
     {
-      image: "https://www.baokontum.com.vn/uploads/Image/2021/09/21/21261803%20Nha%20Tho%20Go.jpg",
+      image: "https://megateen.vn/wp-content/uploads/2020/01/review-du-lich-kon-tum-megateen.jpg",
       caption: "Kon Tum"
     }
   ];
@@ -91,7 +91,25 @@ function HomePage() {
             </div>
           </div>
       <div style={{margin: "50px 50px 0px",borderBottom: "1px solid #ccc"}}></div>
-    
+      <div className="earth-component">
+        <picture>
+            <source  media="(min-width: 959px))" srcSet="https://cms.iqair.com/sites/default/files/2022-06/AVO-AVP%20intl%20mobile%20WorldAQ_1125x2436.jpg"/>
+            <img style={{width: "100%"}} src="https://cms.iqair.com/sites/default/files/2022-06/AVO-AVP%20intl%20page%20WorldAQ_1882x750.jpg"/>
+        </picture>
+        <div>
+          <div style={{width: "40%", color: "#ffffff", marginRight: '3%'}}>
+            <h1>Thay đổi thế giới với dữ liệu chất lượng không khí của bạn</h1>
+            <h5 className="earth-content">Tham gia cộng đồng toàn cầu gồm các nhà khoa học công dân gắn bó bằng cách đóng góp dữ liệu chất lượng không khí của bạn cho nền tảng dữ liệu không khí lớn nhất thế giới. 
+              Đăng ký miễn phí bản thân và thiết bị đo của bạn trong ứng dụng AirVisual. 
+              Dữ liệu của bạn sẽ được xác thực và hiển thị cho hàng triệu người dùng trên nền tảng và trang web của Chương trình Môi trường Liên hợp quốc.</h5>
+            </div>
+          </div>
+      </div>
+      <div style={{margin: "50px 50px 0px",borderBottom: "1px solid #ccc"}}></div>
+      Giám sát tới các thông số
+      <div>
+
+      </div>
       <div style={{margin: "50px 0px", padding:"50px 50px", position:"relative", display: "flex", alignItems: "center", background: "rgba(21, 21, 21, 0.5)"}}>
         <div className="card-me">
         <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/themes/2149507600/settings_images/WY1HGB3QQjyLm0V2AK2V_Untitled_design_2.jpg" alt="image me"/>

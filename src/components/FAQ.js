@@ -43,6 +43,10 @@ const data = {
     {
       title: "PM2.5 ảnh hưởng đến người mắc bệnh tim như thế nào?",
       content:"Hít thở không khí chứa PM 2.5 có thể gây ra các tác động viêm nhiễm lên tim, gây ra các vấn đề về tim mạch mãn tính."
+    },
+    {
+      title: "Ô nhiễm là gì",
+      content:"Sự ô nhiễm môi trường xung quanh do bổ sung các chất lạ/không mong muốn được gọi là ô nhiễm và bất cứ điều gì làm cho môi trường xung quanh không lành mạnh/không phù hợp cho cuộc sống được gọi là ô nhiễm."
     }]
 }
 

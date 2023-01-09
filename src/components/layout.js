@@ -83,14 +83,18 @@ const Layout = () => {
                     </div>
                     <div className="tooltip">
                         <a href="/chartAQI" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1) }}>
-                            {/* <div className="icon-tooltip cash-icon">
-                            </div>           */}
+                            <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
+                            <div className="title-tooltip">Google Map</div>
+                        </a>
+                    </div>
+                    <div className="tooltip">
+                        <a href="/chartAQI" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",2) }}>
                             <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
                             <div className="title-tooltip">Biểu đồ AQI</div>
                         </a>
                     </div>
                     <div className="tooltip">
-                        <a href="/about" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",2) }}>
+                        <a href="/about" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 3 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",3) }}>
                             <i id="iconMenu" style={{fontSize:"30px"}} className="fa fa-info-circle" ></i>
                             <div className="title-tooltip">Thông tin về AQI</div>
                         </a>
@@ -113,6 +117,10 @@ const Layout = () => {
             <div className="main-content" id="main-content">
                 <div className="header-content">
                     <img className="mini-logo" src={require("../assets/logo.png")} alt="img-icon"/>
+                    { Number(sessionStorage.getItem('menuIndex')) === 0 &&   <div className="title-content">Trang chủ</div>}
+                    { Number(sessionStorage.getItem('menuIndex')) === 1 &&   <div className="title-content">Bản đồ chất lượng không khí Việt Nam</div>}
+                    { Number(sessionStorage.getItem('menuIndex')) === 2 &&   <div className="title-content">Chất lượng không khí của các tỉnh Việt Nam</div>}
+                    { Number(sessionStorage.getItem('menuIndex')) === 3 &&   <div className="title-content">Thông tin chất lượng không khí Việt Nam</div>}
                     {/* <BrowserRouter>
                         <Routes>
                             <Route path="/mapAQI" element={<div className="title-content">Bản đồ chất lượng không khí Việt Nam</div>} ></Route>

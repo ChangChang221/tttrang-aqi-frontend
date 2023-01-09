@@ -50,6 +50,7 @@
 }
 
 .main-table { 
+    gap: 30px;
     margin-top: 16px;
     margin-left: 16px;
     margin-right: 16px;

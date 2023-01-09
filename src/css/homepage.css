@@ -104,6 +104,38 @@
     border-radius: 10px;
     box-shadow: 0 2px 2px 2px rgb(0 0 0 / 8%)
 }
+.earth-component{
+    display: flex;
+    position: relative;
+}
+.earth-component > picture{
+    position: relative;
+}
+.earth-component >div{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 1440px;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.earth-component h1{
+    font-weight: 400;
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.earth-content{
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 16px;
+    text-align: center;
+}
 @media screen and (min-width: 768px){
     .infomation-me{
         padding: 30px;
