@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import React, { useState,useEffect } from "react";
 
 import MapWithPlaceholder from "./mapLeaflet.js";
@@ -39,30 +39,30 @@ const Layout = () => {
     <div className="container">
         <div className="menu-container-desktop menu-container" style={{display: "none"}}>
             <div className="logo-container">
-                <a href="/" className="logo">
+                <NavLink to="/" className="logo">
                     <img src={require("../assets/logo11.png")} alt="img-icon"/>
-                </a>
+                </NavLink>
             </div>
             <div className="menu-list">
                 <div className="tooltip">
-                    <a href="/" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 0? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0) }}> 
+                    <NavLink to="/" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 0? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0) }}> 
                         <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-list-ul" ></i>
                         <div className="title-tooltip">Tổng quan</div>
-                    </a>
+                    </NavLink>
                 </div>
                 <div className="tooltip">
-                    <a href="/chartAQI" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1) }}>
+                    <NavLink to="/chartAQI" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1) }}>
                         {/* <div className="icon-tooltip cash-icon">
                         </div>           */}
                         <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
                         <div className="title-tooltip">Biểu đồ AQI</div>
-                    </a>
+                    </NavLink>
                 </div>
                 <div className="tooltip">
-                    <a href="/about" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",2) }}>
+                    <NavLink to="/about" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",2) }}>
                         <i id="iconMenu" style={{fontSize:"30px"}} className="fa fa-info-circle" ></i>
                         <div className="title-tooltip">Thông tin về AQI</div>
-                    </a>
+                    </NavLink>
                 </div>
             </div>
         </div>
@@ -70,34 +70,34 @@ const Layout = () => {
             <div className="mobile-nav-overlay" onClick={mobileNavOverlay}></div>
             <div className="menu-container menu-container-mobile">
                 <div className="logo-container">
-                    <a href="/" className="logo">
+                    <NavLink to="/" className="logo">
                         <img src={require("../assets/logo11.png")} alt="img-icon"/>
-                    </a>
+                    </NavLink>
                 </div>
                 <div className="menu-list">
                     <div className="tooltip">
-                        <a href="/" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 0? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0) }}> 
+                        <NavLink to="/" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 0? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0) }}> 
                             <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-list-ul" ></i>
                             <div className="title-tooltip">Tổng quan</div>
-                        </a>
+                        </NavLink>
                     </div>
                     <div className="tooltip">
-                        <a href="/chartAQI" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1) }}>
+                        <NavLink to="/chartAQI" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1) }}>
                             <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
                             <div className="title-tooltip">Google Map</div>
-                        </a>
+                        </NavLink>
                     </div>
                     <div className="tooltip">
-                        <a href="/chartAQI" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",2) }}>
+                        <NavLink to="/chartAQI" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",2) }}>
                             <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
                             <div className="title-tooltip">Biểu đồ AQI</div>
-                        </a>
+                        </NavLink>
                     </div>
                     <div className="tooltip">
-                        <a href="/about" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 3 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",3) }}>
+                        <NavLink to="/about" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 3 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",3) }}>
                             <i id="iconMenu" style={{fontSize:"30px"}} className="fa fa-info-circle" ></i>
                             <div className="title-tooltip">Thông tin về AQI</div>
-                        </a>
+                        </NavLink>
                     </div>
                 </div>
             </div>

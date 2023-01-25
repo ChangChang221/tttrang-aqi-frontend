@@ -3,11 +3,21 @@ import {Line, Doughnut, Bar} from 'react-chartjs-2';
 import {Chart} from 'chart.js';
 import {registerables } from 'chart.js';
 import '../css/chart.css'
+import io from "socket.io-client";
+import historyService from '../services/history';
+// import DateRangePicker from './component/DateRangePicker';
+import { ButtonToolbar, IconButton, InputGroup, Input, DateRangePicker } from 'rsuite';
+import SearchIcon from '@rsuite/icons/Search';
+import dayjs from 'dayjs'
+
+Chart.register(...registerables);
 // Chart.register(CategoryScale);
 // Chart.register(ArcElement);
-Chart.register(...registerables);
-export const dataNull=["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""];
+
+export const dataNull=[];
 export const date= new Date;
+const socket = io("https://tttrang-aqi-backend.onrender.com/api/socket"); //http://localhost:8080/api/socket
+
 class ChartAQI extends Component {
   state = {
     datahumidity:{
@@ -49,18 +59,25 @@ class ChartAQI extends Component {
         display: "true",
         text: "tiêu đề"
       }
-    }
+    },
+    valueDate: [],
   }
 
   componentDidMount() {
-    console.log("trang 1");
+    
+    socket.connect();
+    //console.log("trang 1");
+    
+    return () => {
+      socket.disconnect();
+    };
   }
 
   // componentWillUnmount() {
   //   clearInterval(this.timer)
   // }
 
-  increment(city) {
+  async increment(city) {
     let labelsCopy= this.state.datahumidity.labels.slice(0);
 
     const datasetsCopy = this.state.datahumidity.datasets.slice(0);
@@ -71,67 +88,146 @@ class ChartAQI extends Component {
 
     const datasetsCopy3 = this.state.dataAQI.datasets.slice(0);
     var dataCopy3 = datasetsCopy3[0].data.slice(0);
-        fetch("https://tttrang-aqi-backend.onrender.com/api/history/name?name="+city) //http://localhost:5000/api/name?name=
-          .then( res => res.json())
-          .then(dataRes=>{
-              if(dataRes==undefined) {
-                console.log("error");
-                clearInterval(this.timer);
-                alert("Không tìm thấy dữ liệu");
-                window.location.reload();
-                return 0;
-              }
-              let date_now=new Date;
-              console.log("dataRes",dataRes);
-              const count=dataRes.length;
-              if(count>24){
-                dataRes=dataRes.slice(count-24,count);
-              }
-              dataCopy=dataRes.map((id)=> Number(id.humidity));
-              labelsCopy=dataRes.map((id)=>{
-                const dateH=new Date(id.date);
-                return dateH.getMonth()+1+"m"+dateH.getDate()+"d"+dateH.getHours()+"h"
-              });
-              dataCopy2=dataRes.map((id)=> Number(id.temperature));
-              dataCopy3=dataRes.map((id)=> Number(id.AQI));
-             
-              datasetsCopy[0].data = dataCopy;
-              datasetsCopy2[0].data = dataCopy2;
-              datasetsCopy3[0].data = dataCopy3;
-              this.setState({
-                datahumidity: Object.assign({}, this.state.datahumidity, {
-                      datasets: datasetsCopy,
-                      labels: labelsCopy
-                  }),
-                datatemperature: Object.assign({}, this.state.datatemperature, {
-                    datasets: datasetsCopy2,
-                    labels: labelsCopy
-                }),
-                dataAQI: Object.assign({}, this.state.dataAQI, {
-                    datasets: datasetsCopy3,
-                    labels: labelsCopy
-                }),
-              });
-          })
-          .catch((err) => {
-            // alert('failed to fetch');
-            console.log(err);
-          });
+    
+    try {
+      const nameCity={
+        name: city,
+        startDate: dayjs(this.state.valueDate[0]).format('YYYY-MM-DD'),
+        endDate: dayjs(this.state.valueDate[1]).format('YYYY-MM-DD'),
+      }
+      const res = await historyService.getHistoryByName(nameCity)
+      // const res = await historyService.getHistory(city)
+
+      console.log({res})
+      const dataRes = res.data;
+      if(dataRes==undefined) {
+        console.log("error");
+        clearInterval(this.timer);
+        alert("Không tìm thấy dữ liệu");
+        window.location.reload();
+        return 0;
+      }
+      // let date_now=new Date;
+      // console.log("dataRes",dataRes);
+      // const count=dataRes.length;
+      // if(count>24){
+      //   dataRes=dataRes.slice(count-24,count);
+      // }
+      dataCopy=dataRes.map((id)=> Number(id.humidity));
+  
+      labelsCopy=dataRes.map((id)=>{
+        const dateH=new Date(id.date);
+        return dateH.getMonth()+1+"m"+dateH.getDate()+"d"+dateH.getHours()+"h"
+      });
+  
+      dataCopy2=dataRes.map((id)=> Number(id.temperature));
+      dataCopy3=dataRes.map((id)=> Number(id.AQI));
+      
+      datasetsCopy[0].data = dataCopy;
+      datasetsCopy2[0].data = dataCopy2;
+      datasetsCopy3[0].data = dataCopy3;
+      this.setState({
+        datahumidity: Object.assign({}, this.state.datahumidity, {
+              datasets: datasetsCopy,
+              labels: labelsCopy
+          }),
+        datatemperature: Object.assign({}, this.state.datatemperature, {
+            datasets: datasetsCopy2,
+            labels: labelsCopy
+        }),
+        dataAQI: Object.assign({}, this.state.dataAQI, {
+            datasets: datasetsCopy3,
+            labels: labelsCopy
+        }),
+      });
+    } catch (error) {
+      console.log(error)
+    }
+    // fetch("http://localhost:8080/api/history/name?name="+city) //http://localhost:5000/api/name?name=  https://tttrang-aqi-backend.onrender.com/api/history/name?name=
+    //   .then( res => res.json())
+    //   .then(dataRes=>{
+    //       if(dataRes==undefined) {
+    //         console.log("error");
+    //         clearInterval(this.timer);
+    //         alert("Không tìm thấy dữ liệu");
+    //         window.location.reload();
+    //         return 0;
+    //       }
+    //       let date_now=new Date;
+    //       console.log("dataRes",dataRes);
+    //       const count=dataRes.length;
+    //       if(count>24){
+    //         dataRes=dataRes.slice(count-24,count);
+    //       }
+    //       dataCopy=dataRes.map((id)=> Number(id.humidity));
+
+    //       labelsCopy=dataRes.map((id)=>{
+    //         const dateH=new Date(id.date);
+    //         return dateH.getMonth()+1+"m"+dateH.getDate()+"d"+dateH.getHours()+"h"
+    //       });
+
+    //       dataCopy2=dataRes.map((id)=> Number(id.temperature));
+    //       dataCopy3=dataRes.map((id)=> Number(id.AQI));
+          
+    //       datasetsCopy[0].data = dataCopy;
+    //       datasetsCopy2[0].data = dataCopy2;
+    //       datasetsCopy3[0].data = dataCopy3;
+    //       this.setState({
+    //         datahumidity: Object.assign({}, this.state.datahumidity, {
+    //               datasets: datasetsCopy,
+    //               labels: labelsCopy
+    //           }),
+    //         datatemperature: Object.assign({}, this.state.datatemperature, {
+    //             datasets: datasetsCopy2,
+    //             labels: labelsCopy
+    //         }),
+    //         dataAQI: Object.assign({}, this.state.dataAQI, {
+    //             datasets: datasetsCopy3,
+    //             labels: labelsCopy
+    //         }),
+    //       });
+    //   })
+    //   .catch((err) => {
+    //     // alert('failed to fetch');
+    //     console.log(err);
+    //   });
   }
+
+  // handleClick = (e) => {
+  //   if(this.state.input=="") return;
+  //   clearInterval(this.timer);
+  //   let inputSearch=this.state.input.toLowerCase();
+  //   console.log(inputSearch);
+  //   this.timer = setInterval(()=>
+  //     {
+  //       console.log(inputSearch);
+  //       this.increment(inputSearch)
+  //     },
+  //     1000
+  //   )
+  // }
 
   handleClick = (e) => {
     if(this.state.input=="") return;
-    clearInterval(this.timer);
     let inputSearch=this.state.input.toLowerCase();
     console.log(inputSearch);
-    this.timer = setInterval(()=>
-      {
-        console.log(inputSearch);
+    const onEmit= async () =>{   
+      console.log("lang nghe")
+      socket.on("newHistory", (newHistory) => {
+        console.log("newHistory")
+        console.log({newHistory})
         this.increment(inputSearch)
-      },
-      1000
-    )
+      });
+      socket.on("updateCity", (city) => {
+        console.log("updateCity")
+        this.increment(inputSearch)
+      });
+      await this.increment(inputSearch)
+    }
+    onEmit()
   }
+
+
   handleOnSubmit = event => {
     // 👇️ prevent page refresh
     event.preventDefault();
@@ -139,28 +235,36 @@ class ChartAQI extends Component {
     console.log('form submitted ✅');
   }
 
-  handleKeyPress=(event)=> {
+  handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       if(event.target.value=="") return;
-      clearInterval(this.timer);
       let inputSearch=event.target.value.toLowerCase();
-      console.log(inputSearch);
-      this.timer = setInterval(()=>
-      {
-        console.log(inputSearch);
-        this.increment(inputSearch)
-      },
-      1000)
+      const onEmit= async () =>{   
+        socket.on("newHistory", (newHistory) => {
+          console.log({newHistory})
+          this.increment(inputSearch)
+        });
+  
+        await this.increment(inputSearch)
+      }
+      onEmit()
     }
   }
 
   render(){
+    console.log("valueDate", this.state.valueDate)
     return(
       <>
       <form autoComplete="on" onSubmit={this.handleOnSubmit} 
       style={{display: "flex", flexDirection: "row-reverse"}}>
-        <div>
-          <div className="search">
+        <div 
+          style={{    
+            gap: "10px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}>
+          {/* <div className="search">
             <i  onClick={this.handleClick} className="fa fa-search" aria-hidden="true"  style={{fontSize:"20px", paddingRight:"5px", color:"#1E90FF", cursor:"pointer"}}/>
             <input
               type="text" 
@@ -173,8 +277,28 @@ class ChartAQI extends Component {
               placeholder={"Nhập tên thành phố"}
               className="input"
               required/>
-          </div>
-          <button type="submit" onClick={this.handleClick} className="button">Tìm kiếm</button>
+          </div> */}
+          {/* <DateRangePicker setState={this.setState}/> */}
+          <DateRangePicker value={this.state.valueDate} onChange={(e)=> this.setState({valueDate: e})}/>
+          <InputGroup inside>
+            <Input 
+              value={this.state.input}
+              placeholder={"Nhập tên thành phố"} 
+              onKeyPress={this.handleKeyPress}
+              onChange={(e) => 
+                this.setState({
+                input: e}
+              )}/>
+            <InputGroup.Button>
+              <SearchIcon />
+            </InputGroup.Button>
+          </InputGroup>
+          <ButtonToolbar onClick={this.handleClick}>
+            <IconButton appearance="primary" color="cyan" icon={<SearchIcon />}>
+              Tìm kiếm
+            </IconButton>
+          </ButtonToolbar>
+          {/* <button type="submit" onClick={this.handleClick} className="button">Tìm kiếm</button> */}
         </div>
       </form>
       <div className="group-chart">
@@ -201,9 +325,9 @@ class ChartAQI extends Component {
         <Bar data={this.state.datatemperature} key={3}/>      
         </div>
       </div>
-      // <div>
+     {/* <div>
      
-      // </div>
+      </div> */}
       </>
     )
   }

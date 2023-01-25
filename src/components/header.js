@@ -1,9 +1,10 @@
 import '../css/layout/header.css';
 import '../css/layout/container.css';
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+
 export default function Header(){
     const[test, setTest]=useState(0);
-    console.log({test});
     return(
     <div className="menu-desktop navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn">
          <div className="logo-container" style={{flexGrow: 1}}>
@@ -13,10 +14,14 @@ export default function Header(){
         </div>
         <div className='navbar-collapse'>
             <div>
-                <a href="/" className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 0 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0); setTest(0) }}>Tổng quan</a>
-                <a href="/mapAQI" className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1); setTest(1) }}>Google map</a>
-                <a href="/chartAQI" className= {`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",2);setTest(2) }}>Biểu đồ AQI</a>
-                <a href="/about" className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 3 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",3); setTest(3) }}>Thông tin về AQI</a>
+                <NavLink to='/' className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 0 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0); setTest(0) }}>Tổng quan </NavLink>
+                <NavLink to='/mapAQI' className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1); setTest(1) }}>Google map</NavLink>
+                <NavLink to='/chartAQI' className= {`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`} onClick={()=>{ sessionStorage.setItem("menuIndex",2);setTest(2) }}>Biểu đồ AQI</NavLink>
+                <NavLink to='/about' className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 3 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",3); setTest(3) }}>Thông tin về AQI</NavLink>
+                {/* <a href="/" className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 0 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0); setTest(0) }}>Tổng quan</a> */}
+                {/* <a href="/mapAQI" className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1); setTest(1) }}>Google map</a> */}
+                {/* <a href="/chartAQI" className= {`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",2);setTest(2) }}>Biểu đồ AQI</a> */}
+                {/* <a href="/about" className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 3 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",3); setTest(3) }}>Thông tin về AQI</a> */}
             </div>
             <div className="header-icons">
                 <a href="https://www.facebook.com/trang.nt.2201"><i className="fa fa-facebook"></i></a>

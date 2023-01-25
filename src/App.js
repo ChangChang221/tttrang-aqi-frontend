@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import './App.css';
 // import GoogleApiWrapper from "./components/mapComponent.js";
 // import Mapbox from "./components/mapbox.js";
 import MapWithPlaceholder from "./components/mapLeaflet.js";
