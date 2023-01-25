@@ -33,6 +33,10 @@
 .card .card-main{
     margin-left: 20px;
 }
+.card-main h1{
+    font-size: 20px;
+    line-height: 1.42857143;
+}
 .card-img{
     padding: 10px;
     border-radius: 5px;
