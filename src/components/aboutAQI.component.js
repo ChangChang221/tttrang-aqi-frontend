@@ -31,7 +31,7 @@ function AboutAQI(){
                                 <img src={iconGreen} alt="img-icon"style={{backgroundColor:"#A8E05F"}} className="card-img"/>
                         </div>
                         <div className="card-main">
-                        <h1 >0-50 Tốt</h1>
+                        <h1>0-50 Tốt</h1>
                         <div >Chất lượng không khí tốt ít hoặc không có nguy cơ về sức khỏe. Nên để không khí trong nhà lưu thông
                         </div>
                         </div>
