@@ -3,7 +3,7 @@ import '../css/layout/container.css';
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-export default function Header(){
+export default function Header({navNum, setNavNum}){
     const[test, setTest]=useState(0);
     return(
     <div className="menu-desktop navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn">
@@ -14,10 +14,10 @@ export default function Header(){
         </div>
         <div className='navbar-collapse'>
             <div>
-                <NavLink to='/' className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 0 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0); setTest(0) }}>Tổng quan </NavLink>
-                <NavLink to='/mapAQI' className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1); setTest(1) }}>Google map</NavLink>
-                <NavLink to='/chartAQI' className= {`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`} onClick={()=>{ sessionStorage.setItem("menuIndex",2);setTest(2) }}>Biểu đồ AQI</NavLink>
-                <NavLink to='/about' className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 3 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",3); setTest(3) }}>Thông tin về AQI</NavLink>
+                <NavLink to='/' className={`nav-item nav-link`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0); setNavNum(0) }}>Tổng quan </NavLink>
+                <NavLink to='/mapAQI' className={`nav-item nav-link`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1); setNavNum(1) }}>Google map</NavLink>
+                <NavLink to='/chartAQI' className= {`nav-item nav-link`} onClick={()=>{ sessionStorage.setItem("menuIndex",2);setNavNum(2) }}>Biểu đồ AQI</NavLink>
+                <NavLink to='/about' className={`nav-item nav-link `}  onClick={()=>{ sessionStorage.setItem("menuIndex",3); setNavNum(3) }}>Thông tin về AQI</NavLink>
                 {/* <a href="/" className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 0 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0); setTest(0) }}>Tổng quan</a> */}
                 {/* <a href="/mapAQI" className={`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1); setTest(1) }}>Google map</a> */}
                 {/* <a href="/chartAQI" className= {`nav-item nav-link ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",2);setTest(2) }}>Biểu đồ AQI</a> */}

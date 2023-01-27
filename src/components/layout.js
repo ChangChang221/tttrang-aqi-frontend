@@ -19,7 +19,16 @@ function getWindowDimensions() {
     };
 }
 const Layout = () => {
+    const CheckValue = ()=>{
+        if(window.location.pathname ==='/') return 0;
+        else if(window.location.pathname ==='/mapAQI') return 1;
+        else if(window.location.pathname ==='/chartAQI') return 2;
+        else if(window.location.pathname ==='/about') return 3;
+        else return 4;
+    }
+    const[navNum, setNavNum]=useState(CheckValue);
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
     useEffect(() => {
         function handleResize() {
           setWindowDimensions(getWindowDimensions());
@@ -33,9 +42,10 @@ const Layout = () => {
     function mobileNavOverlay(){
         document.getElementById("menu-mobile").style.display = "none";
     }
+
   return (
     <>
-    <Header/>
+    <Header navNum={navNum} setNavNum={setNavNum}/>
     <div className="container">
         <div className="menu-container-desktop menu-container" style={{display: "none"}}>
             <div className="logo-container">
@@ -45,13 +55,19 @@ const Layout = () => {
             </div>
             <div className="menu-list">
                 <div className="tooltip">
-                    <NavLink to="/" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 0? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0) }}> 
+                    <NavLink to="/" className={`tooltip-content ${ navNum === 0? 'active' : '' }`}  onClick={()=>{ setNavNum(0) }}> 
                         <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-list-ul" ></i>
                         <div className="title-tooltip">Tổng quan</div>
                     </NavLink>
                 </div>
                 <div className="tooltip">
-                    <NavLink to="/chartAQI" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1) }}>
+                    <NavLink to="/" className={`tooltip-content ${ navNum === 1? 'active' : '' }`}  onClick={()=>{ setNavNum(1) }}> 
+                        <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-list-ul" ></i>
+                        <div className="title-tooltip">Google Map</div>
+                    </NavLink>
+                </div>
+                <div className="tooltip">
+                    <NavLink to="/chartAQI" className={`tooltip-content ${ navNum === 2 ? 'active' : '' }`}  onClick={()=>{ setNavNum(2) }}>
                         {/* <div className="icon-tooltip cash-icon">
                         </div>           */}
                         <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
@@ -59,7 +75,7 @@ const Layout = () => {
                     </NavLink>
                 </div>
                 <div className="tooltip">
-                    <NavLink to="/about" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",2) }}>
+                    <NavLink to="/about" className={`tooltip-content ${ navNum === 3 ? 'active' : '' }`}  onClick={()=>{ setNavNum(3) }}>
                         <i id="iconMenu" style={{fontSize:"30px"}} className="fa fa-info-circle" ></i>
                         <div className="title-tooltip">Thông tin về AQI</div>
                     </NavLink>
@@ -76,25 +92,25 @@ const Layout = () => {
                 </div>
                 <div className="menu-list">
                     <div className="tooltip">
-                        <NavLink to="/" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 0? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",0) }}> 
+                        <NavLink to="/" className={`tooltip-content ${ navNum === 0? 'active' : '' }`}  onClick={()=>{setNavNum(0) }}> 
                             <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-list-ul" ></i>
                             <div className="title-tooltip">Tổng quan</div>
                         </NavLink>
                     </div>
                     <div className="tooltip">
-                        <NavLink to="/chartAQI" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 1 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",1) }}>
+                        <NavLink to="/chartAQI" className={`tooltip-content ${ navNum === 1 ? 'active' : '' }`}  onClick={()=>{ setNavNum(1) }}>
                             <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
                             <div className="title-tooltip">Google Map</div>
                         </NavLink>
                     </div>
                     <div className="tooltip">
-                        <NavLink to="/chartAQI" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 2 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",2) }}>
+                        <NavLink to="/chartAQI" className={`tooltip-content ${ navNum === 2 ? 'active' : '' }`}  onClick={()=>{ setNavNum(2) }}>
                             <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
                             <div className="title-tooltip">Biểu đồ AQI</div>
                         </NavLink>
                     </div>
                     <div className="tooltip">
-                        <NavLink to="/about" className={`tooltip-content ${ Number(sessionStorage.getItem('menuIndex')) === 3 ? 'active' : '' }`}  onClick={()=>{ sessionStorage.setItem("menuIndex",3) }}>
+                        <NavLink to="/about" className={`tooltip-content ${ navNum === 3 ? 'active' : '' }`}  onClick={()=>{ setNavNum(3) }}>
                             <i id="iconMenu" style={{fontSize:"30px"}} className="fa fa-info-circle" ></i>
                             <div className="title-tooltip">Thông tin về AQI</div>
                         </NavLink>
@@ -117,10 +133,10 @@ const Layout = () => {
             <div className="main-content" id="main-content">
                 <div className="header-content">
                     <img className="mini-logo" src={require("../assets/logo.png")} alt="img-icon"/>
-                    { Number(sessionStorage.getItem('menuIndex')) === 0 &&   <div className="title-content">Trang chủ</div>}
-                    { Number(sessionStorage.getItem('menuIndex')) === 1 &&   <div className="title-content">Bản đồ chất lượng không khí Việt Nam</div>}
-                    { Number(sessionStorage.getItem('menuIndex')) === 2 &&   <div className="title-content">Chất lượng không khí của các tỉnh Việt Nam</div>}
-                    { Number(sessionStorage.getItem('menuIndex')) === 3 &&   <div className="title-content">Thông tin chất lượng không khí Việt Nam</div>}
+                    { navNum === 0 &&   <div className="title-content">Trang chủ</div>}
+                    { navNum === 1 &&   <div className="title-content">Bản đồ chất lượng không khí Việt Nam</div>}
+                    { navNum === 2 &&   <div className="title-content">Chất lượng không khí của các tỉnh Việt Nam</div>}
+                    { navNum === 3 &&   <div className="title-content">Thông tin chất lượng không khí Việt Nam</div>}
                     {/* <BrowserRouter>
                         <Routes>
                             <Route path="/mapAQI" element={<div className="title-content">Bản đồ chất lượng không khí Việt Nam</div>} ></Route>

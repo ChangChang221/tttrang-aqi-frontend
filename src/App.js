@@ -51,7 +51,7 @@ return(
         </Route> */}
         <Route path="/" element={<Layout/>}>
             <Route index element={<HomePage />}></Route>
-            <Route path="mapAQI" element={<MapWithPlaceholder element={<div className="title-content">Bản đồ chất lượng không khí Việt Nam</div>} />} ></Route>
+            <Route path="mapAQI" element={<MapWithPlaceholder/>} ></Route>
             <Route path="about" element={<AboutAQI/>} ></Route>
             <Route path="chartAQI" element={<ChartAQI/>} ></Route>
             <Route path="*" element={<NoPage/>}></Route>
