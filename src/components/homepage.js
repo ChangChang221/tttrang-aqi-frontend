@@ -3,7 +3,14 @@ import "../css/homepage.css";
 import FAQImg from '../assets/FAQ.jpg'
 import AT from '../assets/AT.jpg'
 import FAQ from "./FAQ"
+import Location_Map from "../assets/location-map.jpg"
+import { Button } from 'rsuite';
+import { NavLink, useNavigate } from 'react-router-dom';
 function HomePage() {
+  const navigate = useNavigate();
+  function handleClick() {
+    navigate("/mapAQI");
+  }
  const data = [
     {
       image: "https://haycafe.vn/wp-content/uploads/2022/01/Hinh-anh-nen-Ha-Noi-800x577.jpg",
@@ -106,7 +113,20 @@ function HomePage() {
           </div>
       </div>
       <div style={{margin: "50px 50px 0px",borderBottom: "1px solid #ccc"}}></div>
-      Giám sát tới các thông số
+          Giám sát tới các thông số: PM2.5, CO, CO2, Nhiệt độ, Độ ẩm:
+            <div className='row-flex'>
+              <div style={{flexGrow: 5, maxWidth: "45%"}}>
+                <h1>
+                Truy cập thông tin về chất lượng không khí của thành phố và tiểu bang của bạn từ 'Bản đồ AQI'
+                </h1>
+                <p>
+                Nhận quyền truy cập miễn phí vào khu vực ngoài trời, mức chất lượng không khí của thành phố và tiểu bang của bạn trong dữ liệu lịch sử và thời gian thực hàng giờ, hàng tuần và hàng tháng từ 'Bản đồ AQI'. 
+                Ngoài ra, hãy hiểu mức độ ô nhiễm không khí của các thành phố và tiểu bang lân cận của bạn.
+                </p>
+                <Button color="blue" appearance="primary" style={{marginTop: "45px"}} onClick={handleClick}> Khám phá</Button>
+              </div >
+              <div style={{flexGrow: 7}}><img src={Location_Map} alt="AQI pollution map" /></div>
+            </div>
       <div>
 
       </div>
@@ -114,10 +134,10 @@ function HomePage() {
         <div className="card-me">
         <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/themes/2149507600/settings_images/WY1HGB3QQjyLm0V2AK2V_Untitled_design_2.jpg" alt="image me"/>
         <div className="infomation-me">
-          <h5>FREE WEBINAR</h5>
-          <h1>The title of your webinar goes here</h1>
-          <div>Let them know what the webinar is about. Any incentives for showing up live? Mention here, i.e. a bonus, discount or extra free resource. 
-            <strong> Mark your calendar: Wednesday, June 1st at 10am PT.</strong>
+          <h5>QUAN TRẮC CHẤT LƯỢNG KHÔNG KHÍ</h5>
+          <h1>IQAir</h1>
+          <div>Người dùng sử dụng các chức năng của hệ thống như xem các thông tin về chất lượng không khí ,lịch sử quan trắc, tìm kiếm trạm đo, ...
+            <strong>24/24 (h)</strong>
           </div>
           <button className="btn-more">More ...</button>
         </div>
@@ -129,7 +149,7 @@ function HomePage() {
                 maxWidth: "1000px",
                 margin: "0 auto"}}>
             <div className="title-FAQ">
-                <img src={FAQImg} style={{maxWidth: "550px"}} alt="image FAQ"/>
+                <div><img src={FAQImg} style={{width: "100%"}} alt="image FAQ"/></div>
                 <div style={{margin: "auto"}}>
                     <div style={{fontSize: "50px"}}>Hỏi - Đáp__________</div>
                     <div style={{fontSize: "20px"}}>Hãy hỏi chúng tôi bất cứ điều gì bạn thắc mắc</div>
