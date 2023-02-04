@@ -6,9 +6,10 @@ import '../css/chart.css'
 import io from "socket.io-client";
 import historyService from '../services/history';
 // import DateRangePicker from './component/DateRangePicker';
-import { ButtonToolbar, IconButton, InputGroup, Input, DateRangePicker } from 'rsuite';
+import { ButtonToolbar, IconButton, InputGroup, Input, DateRangePicker, AutoComplete } from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
 import dayjs from 'dayjs'
+import {listCity} from '../utils/data'
 
 Chart.register(...registerables);
 // Chart.register(CategoryScale);
@@ -281,7 +282,8 @@ class ChartAQI extends Component {
           {/* <DateRangePicker setState={this.setState}/> */}
           <DateRangePicker value={this.state.valueDate} onChange={(e)=> this.setState({valueDate: e})}/>
           <InputGroup inside>
-            <Input 
+            <AutoComplete 
+              data={listCity} 
               value={this.state.input}
               placeholder={"Nhập tên thành phố"} 
               onKeyPress={this.handleKeyPress}
