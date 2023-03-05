@@ -10,6 +10,7 @@ import { ButtonToolbar, IconButton, InputGroup, Input, DateRangePicker, AutoComp
 import SearchIcon from '@rsuite/icons/Search';
 import dayjs from 'dayjs'
 import {listCity} from '../utils/data'
+const { allowedMaxDays } = DateRangePicker;
 
 Chart.register(...registerables);
 // Chart.register(CategoryScale);
@@ -20,6 +21,7 @@ export const date= new Date;
 const socket = io("https://tttrang-aqi-backend.onrender.com/api/socket"); //http://localhost:8080/api/socket
 
 class ChartAQI extends Component {
+  
   state = {
     datahumidity:{
       labels: dataNull,
@@ -280,7 +282,7 @@ class ChartAQI extends Component {
               required/>
           </div> */}
           {/* <DateRangePicker setState={this.setState}/> */}
-          <DateRangePicker value={this.state.valueDate} onChange={(e)=> this.setState({valueDate: e})}/>
+          <DateRangePicker value={this.state.valueDate} disabledDate={allowedMaxDays(30)} onChange={(e)=> this.setState({valueDate: e})}/>
           <InputGroup inside>
             <AutoComplete 
               data={listCity} 

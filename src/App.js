@@ -13,9 +13,15 @@ import './css/main.css';
 import ChartAQI from "./components/chart.component.js";
 import Footer from "./components/footer.js";
 import Header from "./components/header.js";
+import Login from "./components/login.js";
+import Register from "./components/register.js";
 import HomePage from "./components/homepage.js";
 import Layout from "./components/layout";
-import NoPage from "./components/noPage"
+import ManageUserAccounts from "./components/manageUserAccounts";
+import NoPage from "./components/noPage";
+import { Navigate, useNavigate } from "react-router-dom";
+import {getCookie} from './utils/cookie'
+
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
     if(width>800 && document.getElementById("menu-mobile") != null){
@@ -27,6 +33,14 @@ function getWindowDimensions() {
     };
   }
    
+  
+const PrivateRouteLogin = ({ children }) => {
+  const navigate = useNavigate();
+  const isAuthenticated = getCookie('accessToken');
+
+  return !isAuthenticated ? children : <Navigate to='/' />;
+};
+
 function App() {
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
     useEffect(() => {
@@ -42,6 +56,7 @@ function App() {
     function mobileNavOverlay(){
         document.getElementById("menu-mobile").style.display = "none";
     }
+    
 return(
 <div style={{widtGoogleApiWrapperh: "100%"}}>
     <BrowserRouter>
@@ -49,11 +64,20 @@ return(
         {/* <Route path="/" element={<div></div>}>
             <Route path="/" element={<Homepage />}></Route>
         </Route> */}
+         <Route path="login" 
+         element={
+              <PrivateRouteLogin>
+                <Login />
+              </PrivateRouteLogin>
+            }>
+          </Route>
+          <Route path="register" element={<Register/>} ></Route>
         <Route path="/" element={<Layout/>}>
             <Route index element={<HomePage />}></Route>
             <Route path="mapAQI" element={<MapWithPlaceholder/>} ></Route>
             <Route path="about" element={<AboutAQI/>} ></Route>
             <Route path="chartAQI" element={<ChartAQI/>} ></Route>
+            <Route path="admin" element={<ManageUserAccounts/>} ></Route>
             <Route path="*" element={<NoPage/>}></Route>
         </Route>
       </Routes>

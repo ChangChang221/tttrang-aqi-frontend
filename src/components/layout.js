@@ -8,6 +8,8 @@ import ChartAQI from "./chart.component.js";
 import Footer from "./footer.js";
 import Header from "./header.js";
 import Homepage from "./homepage";
+import {getCookie, deleteCookie} from '../utils/cookie.js'
+
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
     if(width>800 && document.getElementById("menu-mobile") != null){
@@ -19,11 +21,16 @@ function getWindowDimensions() {
     };
 }
 const Layout = () => {
+    const isAuthenticated = getCookie('accessToken');
+    const atobToken = JSON.parse(atob(isAuthenticated.split('.')[1]));
+    const role = atobToken.role;
+  
     const CheckValue = ()=>{
         if(window.location.pathname ==='/') return 0;
         else if(window.location.pathname ==='/mapAQI') return 1;
         else if(window.location.pathname ==='/chartAQI') return 2;
         else if(window.location.pathname ==='/about') return 3;
+        else if(window.location.pathname ==='/admin') return 4;
         else return 4;
     }
     const[navNum, setNavNum]=useState(CheckValue);
@@ -56,13 +63,13 @@ const Layout = () => {
             <div className="menu-list">
                 <div className="tooltip">
                     <NavLink to="/" className={`tooltip-content ${ navNum === 0? 'active' : '' }`}  onClick={()=>{ setNavNum(0) }}> 
-                        <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-list-ul" ></i>
+                        <i style={{fontSize:"24px"}} className="fa fa-list-ul" ></i>
                         <div className="title-tooltip">Tổng quan</div>
                     </NavLink>
                 </div>
                 <div className="tooltip">
                     <NavLink to="/" className={`tooltip-content ${ navNum === 1? 'active' : '' }`}  onClick={()=>{ setNavNum(1) }}> 
-                        <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-list-ul" ></i>
+                        <i style={{fontSize:"24px"}} className="fa fa-list-ul" ></i>
                         <div className="title-tooltip">Google Map</div>
                     </NavLink>
                 </div>
@@ -70,15 +77,16 @@ const Layout = () => {
                     <NavLink to="/chartAQI" className={`tooltip-content ${ navNum === 2 ? 'active' : '' }`}  onClick={()=>{ setNavNum(2) }}>
                         {/* <div className="icon-tooltip cash-icon">
                         </div>           */}
-                        <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
+                        <i style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
                         <div className="title-tooltip">Biểu đồ AQI</div>
                     </NavLink>
                 </div>
                 <div className="tooltip">
                     <NavLink to="/about" className={`tooltip-content ${ navNum === 3 ? 'active' : '' }`}  onClick={()=>{ setNavNum(3) }}>
-                        <i id="iconMenu" style={{fontSize:"30px"}} className="fa fa-info-circle" ></i>
+                        <i style={{fontSize:"30px"}} className="fa fa-info-circle" ></i>
                         <div className="title-tooltip">Thông tin về AQI</div>
                     </NavLink>
+                    
                 </div>
             </div>
         </div>
@@ -99,22 +107,40 @@ const Layout = () => {
                     </div>
                     <div className="tooltip">
                         <NavLink to="/chartAQI" className={`tooltip-content ${ navNum === 1 ? 'active' : '' }`}  onClick={()=>{ setNavNum(1) }}>
-                            <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
+                            <i style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
                             <div className="title-tooltip">Google Map</div>
                         </NavLink>
                     </div>
                     <div className="tooltip">
                         <NavLink to="/chartAQI" className={`tooltip-content ${ navNum === 2 ? 'active' : '' }`}  onClick={()=>{ setNavNum(2) }}>
-                            <i id="iconMenu" style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
+                            <i style={{fontSize:"24px"}} className="fa fa-line-chart" ></i>                  
                             <div className="title-tooltip">Biểu đồ AQI</div>
                         </NavLink>
                     </div>
                     <div className="tooltip">
                         <NavLink to="/about" className={`tooltip-content ${ navNum === 3 ? 'active' : '' }`}  onClick={()=>{ setNavNum(3) }}>
-                            <i id="iconMenu" style={{fontSize:"30px"}} className="fa fa-info-circle" ></i>
+                            <i style={{fontSize:"30px"}} className="fa fa-info-circle" ></i>
                             <div className="title-tooltip">Thông tin về AQI</div>
                         </NavLink>
                     </div>
+                    
+                    {role ==="admin" &&
+                        <div className="tooltip">
+                            <NavLink to="/admin" className={`tooltip-content ${ navNum === 4 ? 'active' : '' }`}  onClick={()=>{ setNavNum(4) }}>
+                                <i style={{fontSize:"30px"}} className="fa fa-users" aria-hidden="true"></i>
+                                <div className="title-tooltip">Quản lý user</div>
+                            </NavLink>
+                        </div>
+                    }
+                    { isAuthenticated &&
+                        <div className="tooltip">
+                        
+                            <a href='/login' onClick={()=> { deleteCookie('accessToken')}}>
+                                <i id="iconMenu" style={{fontSize:"30px"}} className="fa fa-sign-out" aria-hidden="true"></i>
+                            </a>
+                        
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -137,6 +163,7 @@ const Layout = () => {
                     { navNum === 1 &&   <div className="title-content">Bản đồ chất lượng không khí Việt Nam</div>}
                     { navNum === 2 &&   <div className="title-content">Chất lượng không khí của các tỉnh Việt Nam</div>}
                     { navNum === 3 &&   <div className="title-content">Thông tin chất lượng không khí Việt Nam</div>}
+                    { navNum === 4 &&   <div className="title-content">Quản lý tài khoản</div>}
                     {/* <BrowserRouter>
                         <Routes>
                             <Route path="/mapAQI" element={<div className="title-content">Bản đồ chất lượng không khí Việt Nam</div>} ></Route>

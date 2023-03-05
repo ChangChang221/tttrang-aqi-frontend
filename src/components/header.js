@@ -2,9 +2,15 @@ import '../css/layout/header.css';
 import '../css/layout/container.css';
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import {getCookie, deleteCookie} from '../utils/cookie'
 
 export default function Header({navNum, setNavNum}){
+    const isAuthenticated = getCookie('accessToken');
     const[test, setTest]=useState(0);
+
+    const atobToken = JSON.parse(atob(isAuthenticated.split('.')[1]));
+    const role = atobToken.role;
+  
     return(
     <div className="menu-desktop navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn">
          <div className="logo-container" style={{flexGrow: 1}}>
@@ -25,8 +31,18 @@ export default function Header({navNum, setNavNum}){
             </div>
             <div className="header-icons">
                 <a href="https://www.facebook.com/trang.nt.2201"><i className="fa fa-facebook"></i></a>
-                <a href="https://www.linkedin.com/in/trang-nguy%E1%BB%85n-th%E1%BB%8B-878920239/"><i className="fa fa-linkedin"></i></a>
                 <a href="https://github.com/ChangChang221"><i className="fa fa-github"></i></a>
+                
+                { !isAuthenticated &&
+                    <NavLink to='/login' ><i className="fa fa-sign-in"></i></NavLink>}
+                { isAuthenticated &&
+                    <span>
+                        <a href='/login' onClick={()=> { deleteCookie('accessToken')}}><i className="fa fa-sign-out" aria-hidden="true"></i></a>
+                    </span>
+                    }
+                {role ==="admin" &&
+                     <NavLink to='/admin' ><i className="fa fa-users" aria-hidden="true"></i></NavLink>
+                }
             </div>
         </div>
     </div>
