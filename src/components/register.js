@@ -18,24 +18,23 @@ export default function Register(){
     const [usename, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const [errorVisible, setErrorVisible] = useState(false);
+    const [errorVisible, setErrorVisible] = useState("");
 
     const register = async () => {
         console.log(usename,password)
         try {
 
           const res = await SignInUpService.registerAuth({ email: usename, password: password });
-          if (res.status === 200) {
+          if (res.status === 201) {
             const { data } = res;
             console.log({data})
             
             navigate('/login');
-            setErrorVisible(false);
+            setErrorVisible("")
           }
-          else setErrorVisible(true);
+          
         } catch (error) {
-          setErrorVisible(true);
-          console.log(error);
+          setErrorVisible(error.response.data.message);
         }
       };
 
@@ -56,7 +55,7 @@ export default function Register(){
                     <input type="password" name="password" required="" value={password} onChange={(e)=> setPassword(e.target.value)}/>
                     <label>Password <span>*</span></label>
                     </div>
-                    {errorVisible && <div className='login-error-message'>Invalid user name or password</div>}
+                    <div className='login-error-message'>{errorVisible}</div>
                     <div type="submit" className="submit" onClick={register}>
                         {/* <a href="#"> */}
                             <span></span>

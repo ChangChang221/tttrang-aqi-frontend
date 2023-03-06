@@ -37,7 +37,7 @@ function HomePage() {
       caption: "Đà Nẵng"
     },
     {
-      image: "https://dulichdaiduong.vn/bat-mi-5-diem-du-lich-bien-quang-ninh-dep-den-sung-so-6.jpg",
+      image: "https://cdn.tgdd.vn/Files/2021/06/22/1362345/top-9-dia-diem-du-lich-hap-dan-nhat-khong-the-bo-qua-tai-quang-ninh-202201200934147784.jpg",
       caption: "Quảng Ninh"
     },
     {

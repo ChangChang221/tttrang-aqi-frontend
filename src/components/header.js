@@ -4,12 +4,21 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {getCookie, deleteCookie} from '../utils/cookie'
 
-export default function Header({navNum, setNavNum}){
-    const isAuthenticated = getCookie('accessToken');
+export default function Header({navNum, setNavNum, checkRole, isAuthenticated}){
     const[test, setTest]=useState(0);
 
-    const atobToken = JSON.parse(atob(isAuthenticated.split('.')[1]));
-    const role = atobToken.role;
+    // const isAuthenticated = getCookie('accessToken');
+    // console.log("hihi")
+    // const checkRole =()=>{
+    //     if(isAuthenticated){
+    //         console.log("hihi")
+    //         const atobToken = JSON.parse(atob(isAuthenticated.split('.')[1]));
+    //         return atobToken.role;
+    //     }
+            
+    //     else return "";
+        
+    // }
   
     return(
     <div className="menu-desktop navbar navbar-expand-lg navbar-light py-lg-0 px-lg-5 wow fadeIn">
@@ -40,7 +49,7 @@ export default function Header({navNum, setNavNum}){
                         <a href='/login' onClick={()=> { deleteCookie('accessToken')}}><i className="fa fa-sign-out" aria-hidden="true"></i></a>
                     </span>
                     }
-                {role ==="admin" &&
+                {checkRole() ==="admin" &&
                      <NavLink to='/admin' ><i className="fa fa-users" aria-hidden="true"></i></NavLink>
                 }
             </div>

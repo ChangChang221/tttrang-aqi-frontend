@@ -1,13 +1,8 @@
 import { NavLink, Outlet } from "react-router-dom";
 import React, { useState,useEffect } from "react";
-
-import MapWithPlaceholder from "./mapLeaflet.js";
-import AboutAQI from "./aboutAQI.component.js";
 import '../css/main.css';
-import ChartAQI from "./chart.component.js";
 import Footer from "./footer.js";
 import Header from "./header.js";
-import Homepage from "./homepage";
 import {getCookie, deleteCookie} from '../utils/cookie.js'
 
 function getWindowDimensions() {
@@ -22,8 +17,17 @@ function getWindowDimensions() {
 }
 const Layout = () => {
     const isAuthenticated = getCookie('accessToken');
-    const atobToken = JSON.parse(atob(isAuthenticated.split('.')[1]));
-    const role = atobToken.role;
+    const checkRole =()=>{
+        if(isAuthenticated){
+            console.log("hihi")
+            const atobToken = JSON.parse(atob(isAuthenticated.split('.')[1]));
+            return atobToken.role;
+        }
+            
+        else return "";
+        
+    }
+    console.log("role", checkRole());
   
     const CheckValue = ()=>{
         if(window.location.pathname ==='/') return 0;
@@ -52,7 +56,7 @@ const Layout = () => {
 
   return (
     <>
-    <Header navNum={navNum} setNavNum={setNavNum}/>
+    <Header navNum={navNum} setNavNum={setNavNum} isAuthenticated={isAuthenticated} checkRole={checkRole}/>
     <div className="container">
         <div className="menu-container-desktop menu-container" style={{display: "none"}}>
             <div className="logo-container">
@@ -124,7 +128,7 @@ const Layout = () => {
                         </NavLink>
                     </div>
                     
-                    {role ==="admin" &&
+                    {checkRole() ==="admin" &&
                         <div className="tooltip">
                             <NavLink to="/admin" className={`tooltip-content ${ navNum === 4 ? 'active' : '' }`}  onClick={()=>{ setNavNum(4) }}>
                                 <i style={{fontSize:"30px"}} className="fa fa-users" aria-hidden="true"></i>

@@ -1,8 +1,48 @@
+import React, { useEffect, useState } from 'react';
+import { Message } from 'rsuite';
 import '../css/manage-user-accounts.css';
+import UserService from '../services/user';
+import { getCookie } from '../utils/cookie';
+import ButtonDelete from './component/ButtonDelete';
+import ButtonEdit from './component/ButtonEdit';
+
 
 export default function ManageUserAccounts(){
+    const [success, setSuccess] = React.useState(false);
+    const accessToken = getCookie('accessToken');
+    
+    const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+    };
+
+    const [users, setUsers] = useState([]);
+    const fetchData = async () => {
+        try {
+            const { data } = await UserService.getListUser(config);
+            setUsers(data)
+        } catch (error) {
+            console.log(error)
+        }
+      };
+
+    const onClose = ()=>{
+        setSuccess(false)
+    }
+
+    useEffect(()=>{
+        fetchData();
+    },[])
+
     return (
         <div>
+            {
+                success &&
+                <Message showIcon type="success" onClose={onClose}>
+                Success
+                </Message>
+            }
             <table width='100%' className='table-alarms'>
                 <thead>
                 <tr>
@@ -14,103 +54,23 @@ export default function ManageUserAccounts(){
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>test1</td>
-                        <td>1</td>
-                        <td>admin</td>
-                        <td>
-                            <button>edit</button>
-                            <button>delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>test2</td>
-                        <td>1</td>
-                        <td>admin</td>
-                        <td>
-                            <button>edit</button>
-                            <button>delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>test3</td>
-                        <td>1</td>
-                        <td>admin</td>
-                        <td>
-                            <button>edit</button>
-                            <button>delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>test4</td>
-                        <td>1</td>
-                        <td>admin</td>
-                        <td>
-                            <button>edit</button>
-                            <button>delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>test5</td>
-                        <td>1</td>
-                        <td>admin</td>
-                        <td>
-                            <button>edit</button>
-                            <button>delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>test6</td>
-                        <td>1</td>
-                        <td>admin</td>
-                        <td>
-                            <button>edit</button>
-                            <button>delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>test7</td>
-                        <td>1</td>
-                        <td>admin</td>
-                        <td>
-                            <button>edit</button>
-                            <button>delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>test8</td>
-                        <td>1</td>
-                        <td>admin</td>
-                        <td>
-                            <button>edit</button>
-                            <button>delete</button>
-                        </td>
-                    </tr>
-                {/* {dataLogView.map((data) => {
+                {users.map((data, index) => {
                     return (
-                    <tr key={data.id}>
-                        <td className={data.ack === 'ACK' ? 'ack' : null}>
-                        {dayjs(data.activationTime).format(FORMAT_DAY_S_VN)}
-                        </td>
-                        <td className={data.status === 'ACK' ? 'ack' : 'unack'}>{data.status}</td>
-                        <td>{data.objectPath}</td>
-                        <td>{data.alarmName}</td>
-                        <td>{data.stateLabel}</td>
-                        <td>{data.tagValue}</td>
+                    <tr key={index}>
                         <td>
-                        <img src={ImgMessage} alt='Message' onClick={() => handleOpenComment(data)} />
+                        {index}
+                        </td>
+                        <td >{data.email}</td>
+                        <td>{data.password}</td>
+                        <td>{data.role}</td>
+                        <td>
+                            <ButtonEdit user={data} config={config} setUsers={setUsers}/>
+                            <ButtonDelete idUser={data._id} config={config} setUsers={setUsers} setSuccess={setSuccess}/>
+                            {/* <button onClick={()=>deleteUser(data._id)}>delete</button> */}
                         </td>
                     </tr>
                     );
-                })} */}
+                })}
                 </tbody>
             </table>
         </div>
