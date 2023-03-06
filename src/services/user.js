@@ -1,7 +1,8 @@
 import axios from "axios";
 import { getCookie } from "../utils/cookie";
 
-const BASEURL = 'http://localhost:8080/api/users';
+const BASEURL_Test = 'http://localhost:8080/api/users';
+const BASEURL = 'https://tttrang-aqi-backend.onrender.com/api/users'; 
 
 class UserService {
   getListUser(config) {

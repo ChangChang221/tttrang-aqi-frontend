@@ -5,10 +5,10 @@ const BASEURL_Test = "http://localhost:8080/api/"
 
 class SignInUpService {
     loginAuth(user) {
-        return axios.post(BASEURL_Test+"login", user);
+        return axios.post(BASEURL+"login", user);
     }
     registerAuth(user) {
-        return axios.post(BASEURL_Test+"register", user);
+        return axios.post(BASEURL+"register", user);
     }
 }
 export default new SignInUpService();
