@@ -98,6 +98,7 @@ export default function ButtonEdit({user, setUsers, config}){
                 <SelectPicker data={dataRole} searchable={false} style={{ width: 300 }} value={role} onChange={setRole}/>
                 </div>
                 </div>
+                <div className='login-error-message'>{errorVisible}</div>
                 </Modal.Body>
                 <Modal.Footer>
                 <Button onClick={editUser} appearance="primary">
