@@ -29,7 +29,7 @@ export default function Login(){
           if (res.status === 200) {
             const { data } = res;
             console.log({data})
-            setCookie('accessToken', data.token);
+            setCookie('accessToken', data.token, 60);
             
             navigate('/');
             setErrorVisible("")

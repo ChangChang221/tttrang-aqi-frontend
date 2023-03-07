@@ -24,7 +24,7 @@ export default function ButtonEdit({user, setUsers, config}){
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [username, setUsername]= useState(user.email)
+    const [username, setUsername]= useState(user.username)
     const [password, setPassword]= useState(user.password)
     const [role, setRole]= useState(user.role.toUpperCase())
     const [errorVisible, setErrorVisible] = useState("");
@@ -37,7 +37,7 @@ export default function ButtonEdit({user, setUsers, config}){
 
     const editUser = async ()=>{
         const newUser ={
-            email: username,
+            username: username,
             password: password,
             role: role.toLowerCase()
         }

@@ -60,7 +60,7 @@ export default function ManageUserAccounts(){
                         <td>
                         {index}
                         </td>
-                        <td >{data.email}</td>
+                        <td >{data.username}</td>
                         <td>{data.password}</td>
                         <td>{data.role}</td>
                         <td>

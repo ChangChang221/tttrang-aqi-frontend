@@ -1,7 +1,6 @@
 import '../css/login.css';
 import React, {useEffect, useState} from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
-import { setCookie } from '../utils/cookie';
 import SignInUpService from '../services/signup'
 
 const initialFormValue = {
@@ -24,7 +23,7 @@ export default function Register(){
         console.log(usename,password)
         try {
 
-          const res = await SignInUpService.registerAuth({ email: usename, password: password });
+          const res = await SignInUpService.registerAuth({ username: usename, password: password });
           if (res.status === 201) {
             const { data } = res;
             console.log({data})
