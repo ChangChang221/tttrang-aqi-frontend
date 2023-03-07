@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Message } from 'rsuite';
+import { Message, ButtonToolbar, Loader } from 'rsuite';
 import '../css/manage-user-accounts.css';
 import UserService from '../services/user';
 import { getCookie } from '../utils/cookie';
 import ButtonDelete from './component/ButtonDelete';
 import ButtonEdit from './component/ButtonEdit';
-
 
 export default function ManageUserAccounts(){
     const [success, setSuccess] = React.useState(false);
@@ -18,10 +17,13 @@ export default function ManageUserAccounts(){
     };
 
     const [users, setUsers] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
     const fetchData = async () => {
         try {
             const { data } = await UserService.getListUser(config);
             setUsers(data)
+            setIsLoading(false);
         } catch (error) {
             console.log(error)
         }
@@ -32,6 +34,7 @@ export default function ManageUserAccounts(){
     }
 
     useEffect(()=>{
+        setIsLoading(true);
         fetchData();
     },[])
 
@@ -43,6 +46,9 @@ export default function ManageUserAccounts(){
                 Success
                 </Message>
             }
+             {isLoading ? (
+                    <Loader />
+                ) : (
             <table width='100%' className='table-alarms'>
                 <thead>
                 <tr>
@@ -64,8 +70,10 @@ export default function ManageUserAccounts(){
                         <td>{data.password}</td>
                         <td>{data.role}</td>
                         <td>
-                            <ButtonEdit user={data} config={config} setUsers={setUsers}/>
-                            <ButtonDelete idUser={data._id} config={config} setUsers={setUsers} setSuccess={setSuccess}/>
+                            <ButtonToolbar>
+                                <ButtonEdit user={data} config={config} setUsers={setUsers}  setSuccess={setSuccess}/>
+                                <ButtonDelete idUser={data._id} config={config} setUsers={setUsers} setSuccess={setSuccess}/>
+                            </ButtonToolbar>
                             {/* <button onClick={()=>deleteUser(data._id)}>delete</button> */}
                         </td>
                     </tr>
@@ -73,6 +81,7 @@ export default function ManageUserAccounts(){
                 })}
                 </tbody>
             </table>
+             )}
         </div>
     )
 }

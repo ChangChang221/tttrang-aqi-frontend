@@ -76,7 +76,8 @@
     text-transform: uppercase;
     overflow: hidden;
     transition: .5s;
-    margin-top: 40px;
+    margin-top: 25px;
+    margin-bottom: 20px;
     letter-spacing: 4px;
     pointer-events: painted;
   }

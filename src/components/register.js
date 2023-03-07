@@ -1,7 +1,8 @@
 import '../css/login.css';
 import React, {useEffect, useState} from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
-import SignInUpService from '../services/signup'
+import SignInUpService from '../services/signup';
+import { Loader } from 'rsuite';
 
 const initialFormValue = {
     username: '',
@@ -13,7 +14,7 @@ export default function Register(){
     const [visible, setVisible] = React.useState(false);
     const [formValues, setFormValues] = useState(initialFormValue);
     const [formErrors, setFormErrors] = useState({});
-
+    const [isLoading, setIsLoading] = useState(false);
     const [usename, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -22,7 +23,7 @@ export default function Register(){
     const register = async () => {
         console.log(usename,password)
         try {
-
+          setIsLoading(true);
           const res = await SignInUpService.registerAuth({ username: usename, password: password });
           if (res.status === 201) {
             const { data } = res;
@@ -33,6 +34,7 @@ export default function Register(){
           }
           
         } catch (error) {
+          setIsLoading(false);
           setErrorVisible(error.response.data.message);
         }
       };
@@ -55,17 +57,19 @@ export default function Register(){
                     <label>Password <span>*</span></label>
                     </div>
                     <div className='login-error-message'>{errorVisible}</div>
-                    <div type="submit" className="submit" onClick={register}>
-                        {/* <a href="#"> */}
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            Submit
-                        {/* </a> */}
-                        
+                    <div style={{textAlign: "center"}}>
+                    {isLoading ? <Loader /> :
+                      <button type="submit" className="submit" onClick={register}>
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                          Submit
+                      </button>
+                    }
                     </div>
-                    <span><div className='span-login'><NavLink to='/login' >Đăng nhập</NavLink></div></span>
+                    
+                    <div style={{textAlign: "center"}}><NavLink to='/login' >Đăng nhập</NavLink></div>
                 </form>
             </div>
         </div>

@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { setCookie } from '../utils/cookie';
 import SignInUpService from '../services/signup'
+import { Loader } from 'rsuite';
 
 
 const initialFormValue = {
@@ -15,28 +16,30 @@ export default function Login(){
     const [visible, setVisible] = React.useState(false);
     const [formValues, setFormValues] = useState(initialFormValue);
     const [formErrors, setFormErrors] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [usename, setUsername] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const [errorVisible, setErrorVisible] = useState("");
 
     const login = async () => {
-        console.log(usename,password)
+      
+        console.log(username,password)
         try {
-
-          const res = await SignInUpService.loginAuth({ email: usename, password: password });
+          setIsLoading(true);
+          const res = await SignInUpService.loginAuth({ username: username, password: password });
           if (res.status === 200) {
             const { data } = res;
             console.log({data})
             setCookie('accessToken', data.token, 60);
-            
             navigate('/');
             setErrorVisible("")
           }
-        } catch (error) {
-          setErrorVisible(error.response.data.message);
           
+        } catch (error) {
+          setIsLoading(false);
+          setErrorVisible(error.response.data.message);
         }
       };
 
@@ -50,7 +53,7 @@ export default function Login(){
                 <h2>Login</h2>
                 <form>
                     <div className="user-box">
-                    <input type="text" name="usename" required="" value={usename} onChange={(e)=> setUsername(e.target.value)}/>
+                    <input type="text" name="username" required="" value={username} onChange={(e)=> setUsername(e.target.value)}/>
                     <label>Username <span>*</span></label>
                     </div>
                     <div className="user-box">
@@ -58,17 +61,18 @@ export default function Login(){
                     <label>Password <span>*</span></label>
                     </div>
                     <div className='login-error-message'>{errorVisible}</div>
-                    <div type="submit" className="submit" onClick={login}>
-                        {/* <a href="#"> */}
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            Submit
-                        {/* </a> */}
-                        
+                    <div style={{textAlign: "center"}}>
+                      {isLoading ? <Loader /> :
+                      <button type="submit" className="submit" onClick={login} disabled={isLoading}>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                        Submit
+                      </button>
+                      }
                     </div>
-                    <span><div className='span-login'><NavLink to='/register' >Đăng ký</NavLink></div></span>
+                    <div style={{textAlign: "center"}}><NavLink to='/register' >Đăng ký</NavLink></div>
                 </form>
             </div>
         </div>

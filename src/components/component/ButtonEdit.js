@@ -1,7 +1,8 @@
 
 import React, {useState} from 'react';
 import UserService from '../../services/user';
-import { Modal, ButtonToolbar, Whisper, Input, Tooltip, FlexboxGrid, SelectPicker, Form, Button, Schema, Panel } from 'rsuite';
+import EditIcon from '@rsuite/icons/Edit';
+import { IconButton, Modal, ButtonToolbar, Whisper, Input, Tooltip, FlexboxGrid, SelectPicker, Form, Button, Schema, Panel } from 'rsuite';
 
 const { StringType } = Schema.Types;
 const model = Schema.Model({
@@ -10,17 +11,8 @@ const model = Schema.Model({
     .isRequired('This field is required.')
 });
 
-function TextField(props) {
-  const { name, label, accepter, ...rest } = props;
-  return (
-    <Form.Group controlId={`${name}-3`}>
-      <Form.ControlLabel>{label} </Form.ControlLabel>
-      <Form.Control name={name} accepter={accepter} {...rest} />
-    </Form.Group>
-  );
-}
 
-export default function ButtonEdit({user, setUsers, config}){
+export default function ButtonEdit({user, setUsers, config, setSuccess}){
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -46,7 +38,8 @@ export default function ButtonEdit({user, setUsers, config}){
             console.log({res})
             setOpen(false)
             fetchData();
-            setErrorVisible("")
+            setErrorVisible("");
+            setSuccess(true);
         } catch (error) {
             console.log(error)
             setErrorVisible(error.response.data.message);
@@ -72,7 +65,8 @@ export default function ButtonEdit({user, setUsers, config}){
     return (
         <>
             <ButtonToolbar>
-                <Button onClick={handleOpen}> Edit</Button>
+                <IconButton onClick={handleOpen} icon={<EditIcon />} />
+                {/* <Button onClick={handleOpen}> Edit</Button> */}
             </ButtonToolbar>
 
             <Modal open={open} onClose={handleClose}>
