@@ -41,31 +41,48 @@ const PrivateRouteLogin = ({ children }) => {
   return !isAuthenticated ? children : <Navigate to='/' />;
 };
 
+const PrivateRouteAdmin = ({ children }) => {
+  const navigate = useNavigate();
+  const isAuthenticated = getCookie('accessToken');
+  if(!isAuthenticated){
+    return <Navigate to='/login' />;
+  }
+  else{
+    const atobToken = JSON.parse(atob(isAuthenticated.split('.')[1]));
+    if(atobToken.role === "admin") return children;
+    else return <Navigate to='/' />;
+  }
+ // return isAuthenticated ? children : <Navigate to='/login' />;
+};
+
 function App() {
-    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-    useEffect(() => {
-        function handleResize() {
-          setWindowDimensions(getWindowDimensions());
-        }
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-    function handleClick() {
-        document.getElementById("menu-mobile").style.display = "block";
-    }
-    function mobileNavOverlay(){
-        document.getElementById("menu-mobile").style.display = "none";
-    }
-    
-return(
-<div style={{widtGoogleApiWrapperh: "100%"}}>
+  
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  useEffect(() => {
+      function handleResize() {
+        setWindowDimensions(getWindowDimensions());
+      }
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  function handleClick() {
+      document.getElementById("menu-mobile").style.display = "block";
+  }
+  function mobileNavOverlay(){
+      document.getElementById("menu-mobile").style.display = "none";
+  }
+
+
+ 
+  return(
+  <div style={{widtGoogleApiWrapperh: "100%"}}>
     <BrowserRouter>
       <Routes>
         {/* <Route path="/" element={<div></div>}>
             <Route path="/" element={<Homepage />}></Route>
         </Route> */}
-         <Route path="login" 
-         element={
+          <Route path="login" 
+          element={
               <PrivateRouteLogin>
                 <Login />
               </PrivateRouteLogin>
@@ -77,14 +94,19 @@ return(
             <Route path="mapAQI" element={<MapWithPlaceholder/>} ></Route>
             <Route path="about" element={<AboutAQI/>} ></Route>
             <Route path="chartAQI" element={<ChartAQI/>} ></Route>
-            <Route path="admin" element={<ManageUserAccounts/>} ></Route>
+            <Route path="admin" 
+            element={
+              <PrivateRouteAdmin>
+                <ManageUserAccounts/>
+              </PrivateRouteAdmin>
+              }>
+            </Route>
             <Route path="*" element={<NoPage/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
-</div>
-
-)
+  </div>
+  )
 }
 
 export default App;

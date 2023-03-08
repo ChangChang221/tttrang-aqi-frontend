@@ -9,6 +9,7 @@ import ButtonEdit from './component/ButtonEdit';
 export default function ManageUserAccounts(){
     const [success, setSuccess] = React.useState(false);
     const accessToken = getCookie('accessToken');
+    const username = JSON.parse(atob(accessToken.split('.')[1])).username;
     
     const config = {
         headers: {
@@ -69,10 +70,10 @@ export default function ManageUserAccounts(){
                         <td >{data.username}</td>
                         <td>{data.password}</td>
                         <td>{data.role}</td>
-                        <td>
-                            <ButtonToolbar>
-                                <ButtonEdit user={data} config={config} setUsers={setUsers}  setSuccess={setSuccess}/>
-                                <ButtonDelete idUser={data._id} config={config} setUsers={setUsers} setSuccess={setSuccess}/>
+                        <td style={{width: "125px"}} className={username === data.username? "disable-button":""}>
+                            <ButtonToolbar >
+                                <ButtonEdit user={data} config={config} setUsers={setUsers}  setSuccess={setSuccess} />
+                                <ButtonDelete idUser={data._id} config={config} setUsers={setUsers} setSuccess={setSuccess} />
                             </ButtonToolbar>
                             {/* <button onClick={()=>deleteUser(data._id)}>delete</button> */}
                         </td>

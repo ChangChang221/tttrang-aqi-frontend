@@ -4,7 +4,7 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import { setCookie } from '../utils/cookie';
 import SignInUpService from '../services/signup'
 import { Loader } from 'rsuite';
-
+import WarningDisconnect from "./component/WarningDisconnect"
 
 const initialFormValue = {
     username: '',
@@ -24,14 +24,12 @@ export default function Login(){
     const [errorVisible, setErrorVisible] = useState("");
 
     const login = async () => {
-      
-        console.log(username,password)
+      if(username !== "" && password !== ""){
         try {
           setIsLoading(true);
           const res = await SignInUpService.loginAuth({ username: username, password: password });
           if (res.status === 200) {
             const { data } = res;
-            console.log({data})
             setCookie('accessToken', data.token, 60);
             navigate('/');
             setErrorVisible("")
@@ -41,10 +39,10 @@ export default function Login(){
           setIsLoading(false);
           setErrorVisible(error.response.data.message);
         }
-      };
-
-    const handleChange = () => {
-    setVisible(!visible);
+      }
+      else {
+        setErrorVisible("Yêu cầu nhập đủ thông tin")
+      }
     };
 
     return(
@@ -53,17 +51,20 @@ export default function Login(){
                 <h2>Login</h2>
                 <form>
                     <div className="user-box">
-                    <input type="text" name="username" required="" value={username} onChange={(e)=> setUsername(e.target.value)}/>
+                    <input type="text" name="username" 
+                      required="required"
+                      value={username} 
+                      onChange={(e)=> setUsername(e.target.value)}/>
                     <label>Username <span>*</span></label>
                     </div>
                     <div className="user-box">
-                    <input type="password" name="password" required="" value={password} onChange={(e)=> setPassword(e.target.value)}/>
+                    <input type="password" name="password" required value={password} onChange={(e)=> setPassword(e.target.value)}/>
                     <label>Password <span>*</span></label>
                     </div>
                     <div className='login-error-message'>{errorVisible}</div>
                     <div style={{textAlign: "center"}}>
                       {isLoading ? <Loader /> :
-                      <button type="submit" className="submit" onClick={login} disabled={isLoading}>
+                      <button type="submit" className="submit" onClick={login}  disabled={isLoading}>
                       <span></span>
                       <span></span>
                       <span></span>
@@ -71,10 +72,12 @@ export default function Login(){
                         Submit
                       </button>
                       }
-                    </div>
+                      {/* <button type="submit" className="submit" onClick={login}>Submit </button> */}
+                    </div> 
                     <div style={{textAlign: "center"}}><NavLink to='/register' >Đăng ký</NavLink></div>
                 </form>
             </div>
+            <WarningDisconnect/>
         </div>
         
     )

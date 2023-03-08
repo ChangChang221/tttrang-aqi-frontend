@@ -4,3 +4,8 @@ table button{
     border-radius: 5px;
     background-color: cornflowerblue;
 }
+
+.disable-button{
+    pointer-events: none;
+    opacity: 0.4;
+}

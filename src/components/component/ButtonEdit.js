@@ -1,8 +1,8 @@
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import UserService from '../../services/user';
 import EditIcon from '@rsuite/icons/Edit';
-import { IconButton, Modal, ButtonToolbar, Whisper, Input, Tooltip, FlexboxGrid, SelectPicker, Form, Button, Schema, Panel } from 'rsuite';
+import {Loader, IconButton, Modal, ButtonToolbar, Whisper, Input, Tooltip, FlexboxGrid, SelectPicker, Form, Button, Schema, Panel } from 'rsuite';
 
 const { StringType } = Schema.Types;
 const model = Schema.Model({
@@ -20,19 +20,32 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
     const [password, setPassword]= useState(user.password)
     const [role, setRole]= useState(user.role.toUpperCase())
     const [errorVisible, setErrorVisible] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const dataRole = ['ADMIN', 'USER'].map(
         item => ({ label: item, value: item })
       );
 
+    function handleSubmit(e) {
+        e.preventDefault();
+        if (username === "" || password === "" | !role) {
+            setErrorVisible("Vui lòng nhập đầy đủ thông tin.");
+            return;
+        }
+        
+        // Xác thực đăng nhập và gọi API
+        editUser(username, password, role);
+    }
     
+      
 
-    const editUser = async ()=>{
+    const editUser = async (username, password, role)=>{
         const newUser ={
             username: username,
             password: password,
             role: role.toLowerCase()
         }
+        setIsLoading(true);
         try {
             const res = await UserService.editUser(newUser, user._id, config)
             console.log({res})
@@ -41,7 +54,8 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
             setErrorVisible("");
             setSuccess(true);
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            setIsLoading(false);
             setErrorVisible(error.response.data.message);
         }
     }
@@ -61,6 +75,11 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
           <FlexboxGrid.Item colspan={18}>{control}</FlexboxGrid.Item>
         </FlexboxGrid>
       );
+    
+    // useEffect(()=>{
+        
+    //     if(!errorVisible)
+    // },[])
 
     return (
         <>
@@ -68,11 +87,13 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
                 <IconButton onClick={handleOpen} icon={<EditIcon />} />
                 {/* <Button onClick={handleOpen}> Edit</Button> */}
             </ButtonToolbar>
-
+           {
+            open &&
             <Modal open={open} onClose={handleClose}>
                 <Modal.Header>
                 <Modal.Title>Chỉnh sửa tài khoản</Modal.Title>
                 </Modal.Header>
+                <Form model={model}>
                 <Modal.Body>
                 <div style={{margin: "20px 0px"}}>
                 <label for="uname">Username:</label>
@@ -94,15 +115,19 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
                 </div>
                 <div className='login-error-message'>{errorVisible}</div>
                 </Modal.Body>
+                {isLoading ? <Loader /> :
                 <Modal.Footer>
-                <Button onClick={editUser} appearance="primary">
+                <Button onClick={(e)=> handleSubmit(e)} appearance="primary" type="submit">
                     Ok
                 </Button>
                 <Button onClick={handleClose} appearance="subtle">
                     Cancel
                 </Button>
                 </Modal.Footer>
+                }
+                </Form>
             </Modal>
+           }
         </>
     )
 }

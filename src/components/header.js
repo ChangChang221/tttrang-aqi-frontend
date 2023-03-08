@@ -2,7 +2,8 @@ import '../css/layout/header.css';
 import '../css/layout/container.css';
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import {getCookie, deleteCookie} from '../utils/cookie'
+import {getCookie, deleteCookie} from '../utils/cookie';
+import WarningDisconnect from "./component/WarningDisconnect"
 
 export default function Header({navNum, setNavNum, checkRole, isAuthenticated}){
     const[test, setTest]=useState(0);
@@ -54,6 +55,7 @@ export default function Header({navNum, setNavNum, checkRole, isAuthenticated}){
                 }
             </div>
         </div>
+        <WarningDisconnect/>
     </div>
     );
 }
