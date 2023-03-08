@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Message, ButtonToolbar, Loader } from 'rsuite';
+import { IconButton, Message, ButtonToolbar, Loader } from 'rsuite';
 import '../css/manage-user-accounts.css';
 import UserService from '../services/user';
 import { getCookie } from '../utils/cookie';
 import ButtonDelete from './component/ButtonDelete';
 import ButtonEdit from './component/ButtonEdit';
+import ButtonAdd from './component/ButtonAdd';
+import AddOutlineIcon from '@rsuite/icons/AddOutline';
 
 export default function ManageUserAccounts(){
     const [success, setSuccess] = React.useState(false);
@@ -39,6 +41,9 @@ export default function ManageUserAccounts(){
         fetchData();
     },[])
 
+    const [openAdd, setOpenAdd] = React.useState(false);
+    const handleOpenAdd = () => setOpenAdd(true);
+
     return (
         <div>
             {
@@ -46,6 +51,12 @@ export default function ManageUserAccounts(){
                 <Message showIcon type="success" onClose={onClose}>
                 Success
                 </Message>
+            }
+            <ButtonToolbar className="button-add">
+                <IconButton onClick={handleOpenAdd} icon={<AddOutlineIcon />} />
+            </ButtonToolbar>
+            {openAdd &&
+                <ButtonAdd openAdd={openAdd} setOpenAdd={setOpenAdd} config={config} setUsers={setUsers}  setSuccess={setSuccess} />
             }
              {isLoading ? (
                     <Loader />

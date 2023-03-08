@@ -5,8 +5,8 @@ import UserService from '../../services/user';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import {Loader, IconButton, Modal, ButtonToolbar, Whisper, Input, Tooltip, FlexboxGrid, SelectPicker, Form, Button, Schema, Panel } from 'rsuite';
 
-export default function ButtonAdd({config, setUsers, setSuccess}){
-    const [openAdd, setOpenAdd] = React.useState(false);
+export default function ButtonAdd({openAdd, setOpenAdd, config, setUsers, setSuccess}){
+    // const [openAdd, setOpenAdd] = React.useState(false);
     const handleOpenAdd = () => setOpenAdd(true);
     const handleCloseAdd = () => setOpenAdd(false);
     const [username, setUsername]= useState("")
@@ -62,25 +62,13 @@ export default function ButtonAdd({config, setUsers, setSuccess}){
         }
       };
 
-    const ControlRow = ({ label, control, ...rest }) => (
-        <FlexboxGrid {...rest} style={{ marginBottom: 10 }} align="middle">
-          <FlexboxGrid.Item colspan={6}>{label}: </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={18}>{control}</FlexboxGrid.Item>
-        </FlexboxGrid>
-      );
-    
-    // useEffect(()=>{
-        
-    //     if(!errorVisible)
-    // },[])
-
     return (
         <>
-            <ButtonToolbar className="button-add">
+            {/* <ButtonToolbar className="button-add">
                 <IconButton onClick={handleOpenAdd} icon={<AddOutlineIcon />} />
             </ButtonToolbar>
            {
-            openAdd &&
+            openAdd && */}
             <Modal open={openAdd} onClose={handleCloseAdd}>
                 <Modal.Header>
                 <Modal.Title>Chỉnh sửa tài khoản</Modal.Title>
@@ -107,7 +95,7 @@ export default function ButtonAdd({config, setUsers, setSuccess}){
                 </div>
                 <div className='login-error-message'>{errorVisible}</div>
                 </Modal.Body>
-                {/* {isLoading ? <Loader /> : */}
+                {isLoading ? <Loader /> :
                 <Modal.Footer>
                 <Button onClick={(e)=> handleSubmit(e)} appearance="primary" type="submit">
                     Ok
@@ -116,10 +104,10 @@ export default function ButtonAdd({config, setUsers, setSuccess}){
                     Cancel
                 </Button>
                 </Modal.Footer>
-                {/* } */}
+                }
                 </Form>
             </Modal>
-           }
+           {/* } */}
         </>
     )
 }
