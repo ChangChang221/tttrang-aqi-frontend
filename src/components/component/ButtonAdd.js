@@ -1,24 +1,17 @@
 
 import React, {useEffect, useState} from 'react';
+import SignInUpService from '../../services/signup';
 import UserService from '../../services/user';
-import EditIcon from '@rsuite/icons/Edit';
+import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import {Loader, IconButton, Modal, ButtonToolbar, Whisper, Input, Tooltip, FlexboxGrid, SelectPicker, Form, Button, Schema, Panel } from 'rsuite';
 
-const { StringType } = Schema.Types;
-const model = Schema.Model({
-  name: StringType().isRequired('This field is required.'),
-  password: StringType()
-    .isRequired('This field is required.')
-});
-
-
-export default function ButtonEdit({user, setUsers, config, setSuccess}){
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const [username, setUsername]= useState(user.username)
-    const [password, setPassword]= useState(user.password)
-    const [role, setRole]= useState(user.role.toUpperCase())
+export default function ButtonAdd({config, setUsers, setSuccess}){
+    const [openAdd, setOpenAdd] = React.useState(false);
+    const handleOpenAdd = () => setOpenAdd(true);
+    const handleCloseAdd = () => setOpenAdd(false);
+    const [username, setUsername]= useState("")
+    const [password, setPassword]= useState("")
+    const [role, setRole]= useState("")
     const [errorVisible, setErrorVisible] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
@@ -47,9 +40,9 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
         }
         setIsLoading(true);
         try {
-            const res = await UserService.editUser(newUser, user._id, config)
+            const res = await SignInUpService.registerAuth(newUser)
             console.log({res})
-            setOpen(false)
+            setOpenAdd(false)
             fetchData();
             setErrorVisible("");
             setSuccess(true);
@@ -83,17 +76,16 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
 
     return (
         <>
-            <ButtonToolbar>
-                <IconButton onClick={handleOpen} icon={<EditIcon />} />
-                {/* <Button onClick={handleOpen}> Edit</Button> */}
+            <ButtonToolbar className="button-add">
+                <IconButton onClick={handleOpenAdd} icon={<AddOutlineIcon />} />
             </ButtonToolbar>
            {
-            open &&
-            <Modal open={open} onClose={handleClose}>
+            openAdd &&
+            <Modal open={openAdd} onClose={handleCloseAdd}>
                 <Modal.Header>
                 <Modal.Title>Chỉnh sửa tài khoản</Modal.Title>
                 </Modal.Header>
-                <Form model={model}>
+                <Form >
                 <Modal.Body>
                 <div style={{margin: "20px 0px"}}>
                 <label htmlFor="uname">Username:</label>
@@ -120,7 +112,7 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
                 <Button onClick={(e)=> handleSubmit(e)} appearance="primary" type="submit">
                     Ok
                 </Button>
-                <Button onClick={handleClose} appearance="subtle">
+                <Button onClick={handleCloseAdd} appearance="subtle">
                     Cancel
                 </Button>
                 </Modal.Footer>

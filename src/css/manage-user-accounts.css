@@ -9,3 +9,8 @@ table button{
     pointer-events: none;
     opacity: 0.4;
 }
+
+.button-add{
+    flex-direction: row-reverse;
+    margin-bottom: 16px;
+}

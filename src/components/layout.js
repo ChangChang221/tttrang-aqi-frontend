@@ -19,7 +19,6 @@ const Layout = () => {
     const isAuthenticated = getCookie('accessToken');
     const checkRole =()=>{
         if(isAuthenticated){
-            console.log("hihi")
             const atobToken = JSON.parse(atob(isAuthenticated.split('.')[1]));
             return atobToken.role;
         }
@@ -27,8 +26,7 @@ const Layout = () => {
         else return "";
         
     }
-    console.log("role", checkRole());
-  
+    
     const CheckValue = ()=>{
         if(window.location.pathname ==='/') return 0;
         else if(window.location.pathname ==='/mapAQI') return 1;
