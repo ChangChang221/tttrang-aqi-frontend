@@ -53,7 +53,7 @@ export default function ManageUserAccounts(){
                 </Message>
             }
             <ButtonToolbar className="button-add">
-                <IconButton onClick={handleOpenAdd} icon={<AddOutlineIcon />} />
+                <IconButton onClick={handleOpenAdd} icon={<AddOutlineIcon />} color="blue" appearance="primary" circle />
             </ButtonToolbar>
             {openAdd &&
                 <ButtonAdd openAdd={openAdd} setOpenAdd={setOpenAdd} config={config} setUsers={setUsers}  setSuccess={setSuccess} />
