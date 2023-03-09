@@ -12,8 +12,8 @@ const model = Schema.Model({
 });
 
 
-export default function ButtonEdit({user, setUsers, config, setSuccess}){
-    const [openEdit, setOpenEdit] = React.useState(false);
+export default function ButtonEdit({user, openEdit, setOpenEdit, setSelectedUsers, setUsers, config, setSuccess}){
+    // const [openEdit, setOpenEdit] = React.useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
     const handleCloseEdit = () => setOpenEdit(false);
     const [username, setUsername]= useState(user.username)
@@ -32,12 +32,8 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
             setErrorVisible("Vui lòng nhập đầy đủ thông tin.");
             return;
         }
-        
-        // Xác thực đăng nhập và gọi API
         editUser(username, password, role);
     }
-    
-      
 
     const editUser = async (username, password, role)=>{
         const newUser ={
@@ -52,7 +48,9 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
             setOpenEdit(false)
             fetchData();
             setErrorVisible("");
+            setSelectedUsers([])
             setSuccess(true);
+            
         } catch (error) {
             console.log(error);
             setIsLoading(false);
@@ -69,26 +67,32 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
         }
       };
 
-    const ControlRow = ({ label, control, ...rest }) => (
-        <FlexboxGrid {...rest} style={{ marginBottom: 10 }} align="middle">
-          <FlexboxGrid.Item colspan={6}>{label}: </FlexboxGrid.Item>
-          <FlexboxGrid.Item colspan={18}>{control}</FlexboxGrid.Item>
-        </FlexboxGrid>
-      );
-    
+    //   const fetchDataUser = async () => {
+    //     console.log({idUser})
+    //     try {
+    //         const { data } = await UserService.getDetailUser(idUser);
+    //         setUsername(data.username);
+    //         setPassword(data.password);
+    //         setRole(data.role.toUpperCase());
+
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    //   };
+
+
     // useEffect(()=>{
-        
-    //     if(!errorVisible)
+    //     fetchDataUser();
     // },[])
 
     return (
         <>
-            <ButtonToolbar>
+            {/* <ButtonToolbar>
                 <IconButton onClick={handleOpenEdit} icon={<EditIcon />} />
-                {/* <Button onClick={handleOpen}> Edit</Button> */}
-            </ButtonToolbar>
-           {
-            openEdit &&
+               
+            </ButtonToolbar> */}
+            {/* {
+            openEdit && */}
             <Modal open={openEdit} onClose={handleCloseEdit}>
                 <Modal.Header>
                 <Modal.Title>Chỉnh sửa tài khoản</Modal.Title>
@@ -115,7 +119,7 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
                 </div>
                 <div className='login-error-message'>{errorVisible}</div>
                 </Modal.Body>
-                {/* {isLoading ? <Loader /> : */}
+                {isLoading ? <Loader /> :
                 <Modal.Footer>
                 <Button onClick={(e)=> handleSubmit(e)} appearance="primary" type="submit">
                     Ok
@@ -124,10 +128,10 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
                     Cancel
                 </Button>
                 </Modal.Footer>
-                {/* } */}
+                }
                 </Form>
             </Modal>
-           }
+           {/* } */}
         </>
     )
 }

@@ -7,6 +7,7 @@ import ButtonDelete from './component/ButtonDelete';
 import ButtonEdit from './component/ButtonEdit';
 import ButtonAdd from './component/ButtonAdd';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
+import EditIcon from '@rsuite/icons/Edit';
 
 export default function ManageUserAccounts(){
     const [success, setSuccess] = React.useState(false);
@@ -21,6 +22,7 @@ export default function ManageUserAccounts(){
 
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [SelectedUsers, setSelectedUsers] = useState([]);
 
     const fetchData = async () => {
         try {
@@ -41,10 +43,33 @@ export default function ManageUserAccounts(){
         fetchData();
     },[])
 
+    function onItemCheck(e, item) {
+        let tempList = users;
+        tempList.map((user) => {
+          if (user._id === item._id) {
+            user.selected = e.target.checked;
+          } else {
+            user.selected = false;
+          }
+          return user;
+        });
+        setUsers(tempList);
+        setSelectedUsers(users.filter((e) => e.selected));
+      }
+
     const [openAdd, setOpenAdd] = React.useState(false);
     const handleOpenAdd = () => setOpenAdd(true);
     const [openEdit, setOpenEdit] = React.useState(false);
-    const handleOpenEdit = () => setOpenAdd(true);
+    const handleOpenEdit = () => setOpenEdit(true);
+    
+    function titleCase(str) {
+        var convertToArray = str.toLowerCase().split(' ');
+        var result = convertToArray.map(function(val) {
+          return val.replace(val.charAt(0), val.charAt(0).toUpperCase());
+        });
+        
+        return result.join(' ');
+    }
 
     return (
         <div>
@@ -55,7 +80,10 @@ export default function ManageUserAccounts(){
                 </Message>
             }
             <ButtonToolbar className="button-add">
-                <IconButton onClick={handleOpenAdd} icon={<AddOutlineIcon />} color="blue" appearance="primary" circle />
+            <IconButton onClick={handleOpenAdd} icon={<AddOutlineIcon />} color="blue" appearance="primary" circle />
+                {
+                    SelectedUsers.length !==0 && <IconButton onClick={handleOpenEdit} icon={<EditIcon />} circle/>
+                }
             </ButtonToolbar>
             {openAdd &&
                 <ButtonAdd openAdd={openAdd} setOpenAdd={setOpenAdd} config={config} setUsers={setUsers}  setSuccess={setSuccess} />
@@ -67,6 +95,7 @@ export default function ManageUserAccounts(){
                 <thead>
                 <tr>
                     <th></th>
+                    <th>STT</th>
                     <th>USERNAME</th>
                     <th>PASSWORD</th>
                     <th>ROLE</th>
@@ -78,20 +107,26 @@ export default function ManageUserAccounts(){
                     return (
                     <tr key={index}>
                         <td>
-                        {index}
+                            <input
+                                type='checkbox'
+                                checked={data.selected || false}
+                                id={'rowcheck' + data._id}
+                                onChange={(e) => onItemCheck(e, data)}
+                            />
+                        </td>
+                        <td>
+                        {index+1}
                         </td>
                         <td >{data.username}</td>
                         <td>{data.password}</td>
-                        <td>{data.role}</td>
-                        <td style={{width: "125px"}} className={username === data.username? "disable-button":""}>
-                            <ButtonToolbar >
+                        <td>{titleCase(data.role)}</td>
+                        <td style={{width: "50px"}} className={username === data.username? "disable-button":""}>
+                            {/* <ButtonToolbar >
                                 <ButtonEdit user={data} config={config} setUsers={setUsers}  setSuccess={setSuccess} />
                                 <ButtonDelete idUser={data._id} config={config} setUsers={setUsers} setSuccess={setSuccess} />
-                                {openAdd &&
-                                 <ButtonEdit user={data} config={config} setUsers={setUsers}  setSuccess={setSuccess} />
-                                    // <ButtonAdd openAdd={openAdd} setOpenAdd={setOpenAdd} config={config} setUsers={setUsers}  setSuccess={setSuccess} />
-                                }
-                            </ButtonToolbar>
+                               
+                            </ButtonToolbar> */}
+                            <ButtonDelete idUser={data._id} config={config} setUsers={setUsers} setSuccess={setSuccess} />
                             {/* <button onClick={()=>deleteUser(data._id)}>delete</button> */}
                         </td>
                     </tr>
@@ -100,6 +135,18 @@ export default function ManageUserAccounts(){
                 </tbody>
             </table>
              )}
+       
+        
+        {openEdit && (
+          <ButtonEdit
+            openEdit={openEdit}
+            // idUser={SelectedUsers[0]._id}
+            user={SelectedUsers[0]}
+            setOpenEdit={setOpenEdit}
+            setSelectedUsers={setSelectedUsers}
+            config={config} setUsers={setUsers}  setSuccess={setSuccess}
+          />
+        )}
         </div>
     )
 }
