@@ -43,6 +43,8 @@ export default function ManageUserAccounts(){
 
     const [openAdd, setOpenAdd] = React.useState(false);
     const handleOpenAdd = () => setOpenAdd(true);
+    const [openEdit, setOpenEdit] = React.useState(false);
+    const handleOpenEdit = () => setOpenAdd(true);
 
     return (
         <div>
@@ -85,6 +87,10 @@ export default function ManageUserAccounts(){
                             <ButtonToolbar >
                                 <ButtonEdit user={data} config={config} setUsers={setUsers}  setSuccess={setSuccess} />
                                 <ButtonDelete idUser={data._id} config={config} setUsers={setUsers} setSuccess={setSuccess} />
+                                {openAdd &&
+                                 <ButtonEdit user={data} config={config} setUsers={setUsers}  setSuccess={setSuccess} />
+                                    // <ButtonAdd openAdd={openAdd} setOpenAdd={setOpenAdd} config={config} setUsers={setUsers}  setSuccess={setSuccess} />
+                                }
                             </ButtonToolbar>
                             {/* <button onClick={()=>deleteUser(data._id)}>delete</button> */}
                         </td>

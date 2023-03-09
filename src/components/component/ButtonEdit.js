@@ -13,9 +13,9 @@ const model = Schema.Model({
 
 
 export default function ButtonEdit({user, setUsers, config, setSuccess}){
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [openEdit, setOpenEdit] = React.useState(false);
+    const handleOpenEdit = () => setOpenEdit(true);
+    const handleCloseEdit = () => setOpenEdit(false);
     const [username, setUsername]= useState(user.username)
     const [password, setPassword]= useState(user.password)
     const [role, setRole]= useState(user.role.toUpperCase())
@@ -49,7 +49,7 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
         try {
             const res = await UserService.editUser(newUser, user._id, config)
             console.log({res})
-            setOpen(false)
+            setOpenEdit(false)
             fetchData();
             setErrorVisible("");
             setSuccess(true);
@@ -84,12 +84,12 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
     return (
         <>
             <ButtonToolbar>
-                <IconButton onClick={handleOpen} icon={<EditIcon />} />
+                <IconButton onClick={handleOpenEdit} icon={<EditIcon />} />
                 {/* <Button onClick={handleOpen}> Edit</Button> */}
             </ButtonToolbar>
            {
-            open &&
-            <Modal open={open} onClose={handleClose}>
+            openEdit &&
+            <Modal open={openEdit} onClose={handleCloseEdit}>
                 <Modal.Header>
                 <Modal.Title>Chỉnh sửa tài khoản</Modal.Title>
                 </Modal.Header>
@@ -120,7 +120,7 @@ export default function ButtonEdit({user, setUsers, config, setSuccess}){
                 <Button onClick={(e)=> handleSubmit(e)} appearance="primary" type="submit">
                     Ok
                 </Button>
-                <Button onClick={handleClose} appearance="subtle">
+                <Button onClick={handleCloseEdit} appearance="subtle">
                     Cancel
                 </Button>
                 </Modal.Footer>
