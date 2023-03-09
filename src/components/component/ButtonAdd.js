@@ -71,7 +71,7 @@ export default function ButtonAdd({openAdd, setOpenAdd, config, setUsers, setSuc
             openAdd && */}
             <Modal open={openAdd} onClose={handleCloseAdd}>
                 <Modal.Header>
-                <Modal.Title>Chỉnh sửa tài khoản</Modal.Title>
+                <Modal.Title>Thêm mới tài khoản</Modal.Title>
                 </Modal.Header>
                 <Form >
                 <Modal.Body>
