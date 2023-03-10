@@ -61,15 +61,6 @@ export default function ManageUserAccounts(){
     const handleOpenAdd = () => setOpenAdd(true);
     const [openEdit, setOpenEdit] = React.useState(false);
     const handleOpenEdit = () => setOpenEdit(true);
-    
-    function titleCase(str) {
-        var convertToArray = str.toLowerCase().split(' ');
-        var result = convertToArray.map(function(val) {
-          return val.replace(val.charAt(0), val.charAt(0).toUpperCase());
-        });
-        
-        return result.join(' ');
-    }
 
     return (
         <div>
@@ -149,4 +140,14 @@ export default function ManageUserAccounts(){
         )}
         </div>
     )
+}
+
+
+export function titleCase(str) {
+    var convertToArray = str.toLowerCase().split(' ');
+    var result = convertToArray.map(function(val) {
+      return val.replace(val.charAt(0), val.charAt(0).toUpperCase());
+    });
+    
+    return result.join(' ');
 }

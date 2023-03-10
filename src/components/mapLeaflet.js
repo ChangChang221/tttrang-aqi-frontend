@@ -174,9 +174,16 @@ const tick = async () => {
           aboutTypeAQI='Nguy hiểm'
           colorText='#69103d'
         }
+        else{
+          url=7;
+          background="#a070b6"
+          miniBackground="#000000"
+          aboutTypeAQI='Chưa có AQI'
+          colorText='#000000'
+        }
         let numberIcon = L.divIcon({
           html: '<div class="leaflet-div-icon-'+url+'"><span style="display: inline-block;">'+data.AQI+'</span></div>'
-      });
+        });
 
         return (
           <Marker           

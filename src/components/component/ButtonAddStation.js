@@ -1,46 +1,40 @@
 
 import React, {useEffect, useState} from 'react';
-import SignInUpService from '../../services/signup';
-import UserService from '../../services/user';
-import AddOutlineIcon from '@rsuite/icons/AddOutline';
-import {Loader, IconButton, Modal, ButtonToolbar, Whisper, Input, Tooltip, FlexboxGrid, SelectPicker, Form, Button, Schema, Panel } from 'rsuite';
+import CityService from '../../services/city';
+import {Loader, Modal, ButtonToolbar, Whisper, Input, Tooltip, FlexboxGrid, SelectPicker, Form, Button, Schema, Panel } from 'rsuite';
 
-export default function ButtonAdd({openAdd, setOpenAdd, config, setUsers, setSuccess}){
+export default function ButtonAddStation({openAdd, setOpenAdd, config, setCities, setSuccess}){
     // const [openAdd, setOpenAdd] = React.useState(false);
     const handleOpenAdd = () => setOpenAdd(true);
     const handleCloseAdd = () => setOpenAdd(false);
-    const [username, setUsername]= useState("")
-    const [password, setPassword]= useState("")
-    const [role, setRole]= useState("")
+    const [name, setName]= useState("")
+    const [lat, setLat]= useState("")
+    const [lng, setLng]= useState("")
     const [errorVisible, setErrorVisible] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const dataRole = ['ADMIN', 'USER'].map(
-        item => ({ label: item, value: item })
-      );
-
     function handleSubmit(e) {
         e.preventDefault();
-        if (username === "" || password === "" | !role) {
+        if (name === "" || lat === "" | !lng) {
             setErrorVisible("Vui lòng nhập đầy đủ thông tin.");
             return;
         }
         
         // Xác thực đăng nhập và gọi API
-        addUser(username, password, role);
+        addCity(name, lat, lng);
     }
-    
-      
 
-    const addUser = async (username, password, role)=>{
-        const newUser ={
-            username: username,
-            password: password,
-            role: role.toLowerCase()
+    const addCity = async (name, lat, lng)=>{
+        const newCity ={
+            name: name,
+            lat: lat,
+            lng: lng
         }
+
         setIsLoading(true);
+        
         try {
-            const res = await SignInUpService.registerAuth(newUser)
+            const res = await CityService.addCity(config, newCity)
             console.log({res})
             setOpenAdd(false)
             fetchData();
@@ -55,8 +49,8 @@ export default function ButtonAdd({openAdd, setOpenAdd, config, setUsers, setSuc
 
     const fetchData = async () => {
         try {
-            const { data } = await UserService.getListUser(config);
-            setUsers(data)
+            const { data } = await CityService.getListCity();
+            setCities(data)
         } catch (error) {
             console.log(error)
         }
@@ -64,11 +58,6 @@ export default function ButtonAdd({openAdd, setOpenAdd, config, setUsers, setSuc
 
     return (
         <>
-            {/* <ButtonToolbar className="button-add">
-                <IconButton onClick={handleOpenAdd} icon={<AddOutlineIcon />} />
-            </ButtonToolbar>
-           {
-            openAdd && */}
             <Modal open={openAdd} onClose={handleCloseAdd}>
                 <Modal.Header>
                 <Modal.Title>Thêm mới tài khoản</Modal.Title>
@@ -76,21 +65,23 @@ export default function ButtonAdd({openAdd, setOpenAdd, config, setUsers, setSuc
                 <Form >
                 <Modal.Body>
                 <div style={{margin: "20px 0px"}}>
-                <label htmlFor="uname">Username:</label>
+                <label htmlFor="uname">Name:</label>
                 <Whisper trigger="focus" speaker={<Tooltip>Required</Tooltip>}>
-                        <Input style={{ width: 300 }} placeholder="Username" value={username} onChange={setUsername}/>
+                        <Input style={{ width: 300 }} placeholder="name" value={name} onChange={setName}/>
                 </Whisper>
                 </div>
                 <div style={{margin: "20px 0px"}}>
-                <label htmlFor="pword">Password:</label>
+                <label htmlFor="pword">Latitude:</label>
                 <Whisper trigger="focus" speaker={<Tooltip>Required</Tooltip>}>
-                    <Input style={{ width: 300 }} placeholder="Password" value={password} onChange={setPassword}/>
+                    <Input style={{ width: 300 }} placeholder="Latitude" value={lat} onChange={setLat}/>
                 </Whisper>
                 </div>
                 <div style={{margin: "20px 0px"}}>
-                <label htmlFor="role">Role</label>
+                <label htmlFor="lng">Longitude</label>
                 <div>
-                <SelectPicker data={dataRole} searchable={false} style={{ width: 300 }} value={role} onChange={setRole}/>
+                <Whisper trigger="focus" speaker={<Tooltip>Required</Tooltip>}>
+                    <Input style={{ width: 300 }} placeholder="Longitude" value={lng} onChange={setLng}/>
+                </Whisper>
                 </div>
                 </div>
                 <div className='login-error-message'>{errorVisible}</div>

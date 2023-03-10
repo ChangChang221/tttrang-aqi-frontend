@@ -51,7 +51,7 @@ export default function Header({navNum, setNavNum, checkRole, isAuthenticated}){
                     </span>
                     }
                 {checkRole() ==="admin" &&
-                     <NavLink to='/admin' ><i className="fa fa-users" aria-hidden="true"></i></NavLink>
+                     <NavLink to='/admin' onClick={()=>{ sessionStorage.setItem("menuIndex",4); setNavNum(4) }}><i className="fa fa-users" aria-hidden="true"></i></NavLink>
                 }
             </div>
         </div>

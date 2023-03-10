@@ -21,6 +21,8 @@ import ManageUserAccounts from "./components/manageUserAccounts";
 import NoPage from "./components/noPage";
 import { Navigate, useNavigate } from "react-router-dom";
 import {getCookie} from './utils/cookie'
+import ManageStations from "./components/ManageStations";
+import ManageAdmin from "./components/ManageAdmin";
 
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
@@ -97,7 +99,7 @@ function App() {
             <Route path="admin" 
             element={
               <PrivateRouteAdmin>
-                <ManageUserAccounts/>
+                <ManageAdmin/>
               </PrivateRouteAdmin>
               }>
             </Route>
