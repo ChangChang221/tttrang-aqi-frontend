@@ -4,6 +4,7 @@ import {Chart} from 'chart.js';
 import {registerables } from 'chart.js';
 import '../css/chart.css'
 import io from "socket.io-client";
+import AQI from '../assets/AQI.png'
 import historyService from '../services/history';
 // import DateRangePicker from './component/DateRangePicker';
 import { ButtonToolbar, IconButton, InputGroup, Input, DateRangePicker, AutoComplete } from 'rsuite';
@@ -56,7 +57,7 @@ class ChartAQI extends Component {
         }]
     },
     input: "",
-    img:"https://khoahocphattrien.vn/Images/Uploaded/Share/2019/11/13/aqi_mini.png",
+    img: AQI,
     optionss: {
       title:{
         display: "true",
